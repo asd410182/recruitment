@@ -1,0 +1,233 @@
+@import "main.css";
+
+body{
+    background-color: #f6f6f8;
+}
+
+img{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+#header{
+    display: flex;
+    height: 40px;
+    padding-top: 10px;
+    background:#37393c;
+    color: white;
+}
+
+#header i{
+    color:#00c2b3;
+}
+
+#header > .C1{
+    margin-left: 40px;
+    flex: auto;
+    font-size: 20px;
+}
+
+.C1 > i{
+    font-size: 26px;
+}
+
+#header > .C2{
+    margin-left: 100px;
+    margin-right: 40px;
+    padding-top: 5px;
+}
+
+.C3{
+    margin-right: 40px;
+}
+
+#body{
+    display: flex;
+}
+
+#body > .left{
+    width: 300px;
+    height: 250px;
+    background-color: white;
+    margin: 20px 40px 0 40px;
+    border: #fefefe 1px solid;
+    /* float: left; */
+    cursor: pointer;
+}
+
+.left > div{
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.left > div > img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+#Company{
+    margin-bottom: 20px;
+}
+
+.BigBox{
+    display: flex;
+}
+
+.box{
+    display: inline-block;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+}
+.gray{
+    color: #9fa3af;
+}
+
+.right{
+    margin-top: 20px;
+    width: auto;
+}
+
+.searchBar{
+    background: white;
+    height: 48px;
+    border: 1px solid #55cbc4;
+    width: 789px;
+}
+
+.searchBar > input{
+    outline: none;
+    border: none;
+    height: 40px;
+    width: 560px;
+} 
+
+.searchBar > select{
+    height: 40px;
+    width: 120px;
+    text-align: center;
+    outline: none;
+    border: none;
+    padding-left: 20px;
+}
+
+.searchBar > select > option{
+    border: 1px solid white;
+    outline: none;
+}
+
+.searchBar > button{
+    background: #55cbc4;
+    outline: none;
+    border: none;
+    height: 48px;
+    width: 100px;
+    cursor: pointer;
+}
+
+.searchBar > button > i{
+    color: white;
+    font-size: 24px;
+}
+
+.list{
+    margin-top: 40px;
+}
+
+ul li{
+    list-style: none;
+}
+
+li{
+    display: flex;
+    height: 80px;
+    width: auto;
+    background-color: white;
+    display: flex;
+    margin-bottom: 20px;
+    box-shadow:2px 2px 4px 2px gainsboro;
+}
+
+.Job{
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.Job a{
+    text-decoration: none;
+    /* margin-bottom: 10px; */
+}
+
+.Job a:hover{
+    cursor: pointer;
+    /* border-color: #53cac3; */
+}
+
+.Job > div:nth-child(1){
+    width: 600px;
+    margin-left: 10px;
+    margin-top: 11px;
+    margin-bottom: 10px;
+}
+
+#JobTitle, #WorkPlace{
+    font-size: 22px;
+    color: #53cac3;
+}
+
+#ReleaseTime{
+    color: #787f8f;
+    margin-left: 8px;
+}
+
+.ListBoxLeft{
+    margin-top: 8px;
+}
+
+#Salary{
+    color: tomato;
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+#ExperienceRequirement{
+    color:#787f8f;
+}
+
+.ListBoxLeft > span:nth-child(3){
+    display: inline-block;
+    height: 13px;
+    width: 8px;
+    vertical-align: middle;
+    border-right: 2px solid #787f8f;
+    margin-right: 6px;
+}
+
+#AcademicRequirements{
+    color: #787f8f;
+}
+
+.Company{
+    margin-top: 12px;
+    flex: auto;
+}
+
+.Company > #CompanyName{
+    font-size: 22px;
+    color: #53cac3;
+    text-align: right;
+    margin-right: 30px;
+}
+.Company > #CompanyAddress{
+    margin-top: 10px;
+    color: #787f8f;
+    text-align: right;
+    margin-right: 30px;
+}

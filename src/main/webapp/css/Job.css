@@ -1,0 +1,173 @@
+@import "main.css";
+
+body{
+    background: #f6f6f8;
+}
+
+img{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+#header{
+    display: flex;
+    height: 40px;
+    padding-top: 10px;
+    background:#37393c;
+    color: white;
+}
+
+#header i{
+    color:#00c2b3;
+}
+
+#header > .C1{
+    margin-left: 40px;
+    flex: auto;
+    font-size: 20px;
+}
+
+.C1 > i{
+    font-size: 26px;
+}
+
+#header > .C2{
+    margin-left: 100px;
+    margin-right: 40px;
+    padding-top: 5px;
+}
+
+.C3{
+    margin-right: 40px;
+}
+
+#body{
+    background: white;
+    width: 1000px;
+    height: auto;
+    margin-top: 60px;
+    border: 2px solid gainsboro;
+    border-radius: 10px;
+    margin-left: 240px;
+}
+
+.top{
+    margin: 20px 0 20px 20px;
+}
+
+h1{
+    color: #38ada9;
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.top > span{
+    color: tomato;
+    font-size: 24px;
+}
+
+.top > p{
+    color: #9fa3b0;
+}
+
+.middle > div, .bottom{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.DescText > p:nth-child(1), .OpDuty > p:nth-child(1), .Loc > p:nth-child(1){
+    font-weight: 700;
+}
+
+.DescText > p:nth-child(2), .OpDuty > p:nth-child(2), .Loc > p:nth-child(2), .bottom > p:nth-child(2){
+    height: 2px;
+    background: #00c2b3;
+    width: 20px;
+    margin: 10px 0 10px 0;
+}
+
+#JobDescription, #OperatingDuty{
+    color: #7f8594;
+    text-indent: 2em;
+}
+
+.Loc > div{
+    height: 32px;
+    width: 600px;
+    line-height: 32px;
+    margin-top: 20px;
+    border: 2px solid white;
+    box-shadow: -2px -2px 10px 10px whitesmoke;
+}
+
+.Loc > div > i{
+    color: #00c2b3;
+}
+#location{
+    display: inline-block;
+}
+
+ul li{
+    list-style: none;
+}
+
+.bottom > p:nth-child(1){
+    font-weight: 700;
+}
+
+ul{
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+li{
+    display: flex;
+    height: 60px;
+    width: 400px;
+    border: 2px solid white;
+    box-shadow: -2px -2px 10px 10px whitesmoke;
+    margin: 10px 10px 10px 20px;
+    padding: 8px;
+}
+
+li > div{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+li > div:nth-child(1) > p:nth-child(1){
+    height: 50%;
+    line-height: 30px;
+}
+
+li > div:nth-child(2) > a{
+    text-decoration: none;
+    color: black;
+    height: 40%;
+}
+
+li > div:nth-child(2) > p{
+    height: 2px;
+    background-color: #00c2b3;
+    width: 100px;
+    margin-bottom: 4px;
+}
+
+li > div:nth-child(2) > div > button{
+    background: #00d7c6;
+    outline: none;
+    border: 2px solid white;
+    color: white;
+    height: 30px;
+    width: 80px;
+}
+
+li > div:nth-child(2) > div > button:hover{
+    cursor: pointer;
+}

@@ -1,0 +1,186 @@
+@import "main.css";
+
+body{
+    background-color: #f6f6f8;
+}
+
+img{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+#header{
+    display: flex;
+    height: 40px;
+    padding-top: 10px;
+    background:#37393c;
+    color: white;
+}
+
+#header i{
+    color:#00c2b3;
+}
+
+#header > .C1{
+    margin-left: 40px;
+    flex: auto;
+    font-size: 20px;
+}
+
+.C1 > i{
+    font-size: 26px;
+}
+
+#header > .C2{
+    margin-left: 100px;
+    margin-right: 40px;
+    padding-top: 5px;
+}
+
+.C3{
+    margin-right: 40px;
+}
+
+#body{
+    height: 800px;
+    width: 600px;
+    background: white;
+    border: 2px solid gainsboro;
+    border-radius: 10px;
+    padding: 20px;
+    margin-left: 400px;
+    margin-top: 40px;
+}
+
+form{
+    margin-left: 80px;
+}
+
+form > div:nth-child(3) > p{
+    display: inline-block;
+    text-align: center;
+    color: red;
+    width: 200px;
+    visibility: hidden;
+}
+
+.EssentialInformation > p:nth-child(2), .JobRequirements > p:nth-child(2){
+    color: #9fa3b0;
+    font-size: 14px;
+}
+
+.EssentialInformation > p:nth-child(1), .JobRequirements > p:nth-child(1){
+    margin-left: 0px;
+    margin-bottom: 0px;
+}
+
+.EssentialInformation > p:nth-child(1) > span, .JobRequirements > p:nth-child(1) > span{
+    color: #00c2b3;
+    font-size: 32px;
+}
+
+.EssentialInformation > p, .JobRequirements > p{
+    margin-left: 24px;
+    margin-bottom: 10px;
+}
+
+.EssentialInformation span, .JobRequirements span{
+    color: #9fa3b0;
+}
+
+p > #UserName{
+    background: white;
+    border: none;
+    display: inline-block;
+    height: 30px;
+    color: black;
+    line-height: 30px;
+}
+
+#JobName, #location{
+    outline: none;
+    height: 24px;
+    width: 240px;
+    border: 1px solid #9fa3b0;
+}
+
+.EssentialInformation >p:nth-child(5) > select, .JobRequirements > p:nth-child(3) > select, .JobRequirements > p:nth-child(4) > select{
+    outline: none;
+    height: 24px;
+    width: 120px;
+    border: 1px solid #9fa3b0;
+}
+
+p > .count{
+    color: black;
+}
+
+textarea{
+    vertical-align: top;
+    line-height: 26px;
+    outline: none;
+    height: 100px;
+    padding: 10px;
+    border:0;
+    border-radius:5px;
+    background-color:rgba(241,241,241,.98);
+}
+
+form > div:nth-child(3) > input{
+    height: 30px;
+    width: 120px;
+    background: #00c2b3;
+    border: 1px solid #9fa3b0;
+    outline: none;
+    color: white;
+    margin-top: 10px;
+    margin-left: 40px;
+}
+
+.JobRequirements{
+    margin-top: 40px;
+}
+
+
+form > div:nth-child(3) > div{
+    margin-left: 32px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.FlagBox{
+    display: inline-block;
+    border: 1px solid #9fa3b0;
+    height: 36px;
+    width: 180px;
+    text-align: center;
+    line-height: 36px;
+    margin-right: 10px;
+}
+
+.FlagBox > input{
+    display: none;
+}
+
+input:focus{
+    border-color: #00c2b3 !important;
+}
+
+/* textarea:focus{
+    border-color: #00c2b3;
+} */
+
+.CountNum{
+    display: block;
+    z-index: 100;
+    width: 150px;
+    position: relative;
+    top: -22px;
+    left: 290px;
+    font-size: 14px;
+}
+
+.JobRequirements > p:nth-child(5), p:nth-child(6){
+    margin-bottom: 0px;
+}

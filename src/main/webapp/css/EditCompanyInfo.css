@@ -1,0 +1,191 @@
+@import "main.css";
+
+body{
+    background: #f6f6f8;
+}
+
+img{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+#header{
+    display: flex;
+    height: 40px;
+    padding-top: 10px;
+    background:#37393c;
+    color: white;
+}
+
+#header i{
+    color:#00c2b3;
+}
+
+#header > .C1{
+    margin-left: 40px;
+    flex: auto;
+    font-size: 20px;
+}
+
+.C1 > i{
+    font-size: 26px;
+}
+
+#header > .C2{
+    margin-left: 100px;
+    margin-right: 40px;
+    padding-top: 5px;
+}
+
+.C3{
+    margin-right: 40px;
+}
+
+.top{
+    width: 100vw;
+    height: 100px;
+    background: #38ada9;
+    color: white;
+    padding-top: 40px;
+    box-shadow:2px 2px 2px 2px #dfe4ea;
+}
+
+.top > i{
+    font-size: 40px;
+    color: white;
+    margin-left: 120px;
+}
+
+h1, h2{
+    display: inline-block;
+}
+
+.top > h1{
+    margin-left: 360px;
+}
+
+.middle{
+    display: flex;
+}
+
+.left{
+    width: 300px;
+    background: white;
+    height: 360px;
+    border: 2px solid gainsboro;
+    border-radius: 10px;
+}
+
+.up{
+    height: 40px;
+    padding: 10px;
+    width: 200px;
+    padding-left: 60px;
+    color: #38ada9;
+}
+
+.up > div{
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.down > img{
+    width: 280px;
+    height: 240px;
+}
+
+.right{
+    flex: auto;
+    margin: 0px 0px 0px 100px;
+    background: white;
+    border: 2px solid gainsboro;
+    border-radius: 10px;
+}
+
+.right > h2{
+    color: #38ada9;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.right > form > div{
+    margin-bottom: 10px;
+    margin-left: 120px;
+    display: inline-block;
+}
+
+.right p{
+    color: #38ada9;
+    font-weight: 900;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.right >form >  div > div{
+    width: 300px;
+    height: 40px;
+    border: 1px solid #9fa3b0;
+}
+
+.right i{
+    color: #38ada9;
+    display: inline-block;
+}
+
+.right input{
+    outline: none;
+    height: 28px;
+    border: none;
+    width: 200px;
+}
+
+.middle{
+    margin: 40px 100px 0px 100px;
+}
+
+textarea{
+    width: 730px;
+    border: 0;
+    line-height: 26px;
+    outline: none;
+    height: 150px;
+    padding: 10px;
+}
+
+form > div:nth-child(6) > button, form > div:nth-child(6) > input{
+    width: 160px;
+    height: 36px;
+    border: none;
+    color: white;
+    background: #00d7c6;
+    cursor: pointer;
+    outline: none;
+}
+
+form > div:nth-child(6) > input{
+    display: none;
+}
+
+.CIntro{
+    border:0;
+    border-radius:5px;
+    background-color:rgba(241,241,241,.98);
+    padding: 10px;
+    resize: none;
+}
+
+#PhoneNumberError, #EmailError, #LocationError, #UserNameError, #CompanyIntroError{
+    visibility: hidden;
+    display: inline-block;
+    margin-top: 8px;
+    text-align: center;
+    width: 302px;
+    font-size: 14px;
+    color: red;
+}
+
+#CompanyIntroError{
+    width: 750px;
+}

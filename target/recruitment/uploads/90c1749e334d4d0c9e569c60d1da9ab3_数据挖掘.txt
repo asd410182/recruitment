@@ -1,0 +1,15 @@
+human							mammals
+python							reptiles
+salmon							fishes
+whale							mammals
+frog							amphibians
+komodo							reptiles
+bat							mammals
+pigeon							birds
+cat							mammals
+leopard shark						fishes
+turtle							reptiles
+penguin							birds
+porcupine						mammals
+eel							fishes
+salamander	

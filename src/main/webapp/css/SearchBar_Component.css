@@ -1,0 +1,140 @@
+/* 输入框 */
+input.SearchBar
+{
+    position: absolute;
+    /* float:right; */
+    box-sizing: border-box;
+    outline-style: none;
+    padding-left: 15px;
+    font-size: large;
+    width:100%;
+    height:100%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 12px;
+    border:2px solid #37393c;
+    cursor:text;
+    transition: border-color 0.2s,border-width 0.2s,box-shadow 0.2s;
+    box-shadow: inset 0px 0px 10px 0px #a1bcbe;
+}
+
+input.SearchBar:hover
+{
+    border-color:rgb(206, 253, 255);
+    box-shadow: inset 0px 0px 15px 0px #d1f4f7;
+}
+input.SearchBar:focus
+{
+    border-width: 3px 2px 3px 2px;
+    border-color: rgb(21, 122, 109);
+    box-shadow:none;
+}
+
+/* 搜索按钮 */
+svg.SearchButton
+{
+    position:relative;
+    float:right;
+    box-sizing: border-box;
+    height:inherit;
+    width: 50px;
+    padding: 4px;
+    background-color:rgb(206, 253, 255);
+    font-size: large;
+    text-align: center;
+    vertical-align: baseline;
+    border:2px solid #004141;
+    border-radius: 12px;
+    transition: background-color 0.2s,fill 0.2s,border-color 0.05s,padding 0.05s;
+    fill:#004141;
+    cursor: pointer;
+    box-shadow: inset 0px 0px 10px 0px #a1bcbe;
+}
+
+svg.SearchButton:hover
+{
+    border-color: rgb(119, 155, 165);
+    background-color:#37393c;
+    fill:rgb(206, 253, 255);
+    box-shadow:none;
+}
+
+svg.SearchButton:active
+{
+    padding: 6px;
+    border-color: rgb(206, 253, 255);
+    background-color:#616d7c;
+    box-shadow:none;
+}
+
+/* 搜索选择器，默认靠左 */
+div.SearchBarSelectorLeft
+{
+    position: relative;
+    float: left;
+    height:50px;
+    width: 120px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size:small;
+    top:-23px;
+    padding-top: 23px;
+    /* padding-left: 3px; */
+    padding-right: 3px;
+    overflow:visible;
+    border:2px solid #004141;
+    border-radius: 12px;
+    outline: none;
+    background-color:rgb(206, 253, 255);
+    transition: background-color 0.2s,color 0.2s,border-color 0.05s;
+    cursor: pointer;
+    box-shadow: inset 0px 0px 10px 0px #a1bcbe;
+}
+
+div.SearchBarSelectorLeft:hover
+{
+    border-color: rgb(119, 155, 165);
+    background-color:#37393c;
+    color:rgb(206, 253, 255);
+    box-shadow:none;
+}
+
+div.SearchBarSelectorLeft:focus
+{
+    border-color: rgb(206, 253, 255);
+    background-color:#616d7c;
+    color:rgb(206, 253, 255);
+    box-shadow:none;
+}
+/* 选择器下拉框 */
+div.SerachBarSelectorDropDownBox
+{
+    /* 下拉效果必需属性 */
+    position: absolute;
+    visibility: hidden;
+    height:0px;
+    top:48px;
+    transition:visibility 0s 0.15s,height 0.2s;
+    
+    /* 这些属性仅作演示 */
+    width: 400px;
+    overflow:hidden;
+    box-sizing: border-box;
+    text-align: center;
+    font-size:small;
+    padding-top: 3px;
+    padding-left: 3px;
+    padding-right: 3px;  
+    border:2px solid #004141;
+    border-radius: 12px;
+    background-color:rgb(206, 253, 255);
+    color: #004141;
+    cursor:default;
+    filter: drop-shadow(4px 4px 2px #5c606469);
+}
+
+div.SearchBarSelectorLeft:focus div.SerachBarSelectorDropDownBox
+{
+    visibility:visible;
+    height:300px;
+    transition:visibility 0s 0s,height 0.2s;
+}

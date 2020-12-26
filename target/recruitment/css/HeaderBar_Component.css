@@ -1,0 +1,47 @@
+@import url("main.css");
+img{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+header
+{
+    position: fixed;
+    left:0px;
+    width:100%;
+    height: 40px;
+    padding-top: 10px;
+    background-color:#37393c;
+    color: white;
+    z-index: 5;
+}
+
+.C1{
+    position:absolute;
+    margin-left: 40px;
+    font-size: 20px;
+    overflow: hidden;
+}
+
+.C1 > i{
+    font-size: 26px;
+    color:#00c2b3;
+}
+
+.C2{
+    float: right;
+    margin-left: 100px;
+    margin-right: 40px;
+    padding-top: 5px;
+}
+
+.C2>i
+{
+    color:#00c2b3;
+}
+
+.C3{
+    float: right;
+    margin-right: 40px;
+}

@@ -1,0 +1,119 @@
+@import "../css/main.css";
+
+
+body{
+    background-color: #53cac3;
+}
+
+.header > h1{
+    margin-top: 20px;
+    margin-left: 30px;
+    color: white;
+}
+.main{
+    display: flex;
+    justify-content: space-around;
+}
+
+.main > img{
+    width: 600px;
+    height: 400px;
+    display: inline-block;
+}
+
+.main-right{
+    background: white;
+    height: 400px;
+    width: 400px;
+    box-shadow: 5px 5px 2px #53cac3;
+    padding: 10px;
+}
+
+.main-right > #err{
+    height: 30px;
+    margin: 0px;
+    color: red;
+    text-align: center;
+    line-height: 30px;  /*保证文字垂直居中*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.main-right > div{
+    width: 300px;
+    margin-top: 10px;
+    margin-left: 55px;
+    height: 40px;
+    border: 1px solid gainsboro;
+    display: flex;
+}
+
+.main-right > div > input{
+    border: none;
+    flex: auto;
+}
+
+#verification-box > input[type="button"]{
+    background-color: white;
+    height: 20px;
+    margin: auto;
+    border-left: 2px solid #e7eaec;
+    color: #53cac3;
+}
+
+#register-box > #register{
+    height: 40px;
+    background: #18c3b1;
+    color: white;
+    font-size: 16px;
+}
+
+#register-box > #register:hover{
+    background:#00d7c6;
+}
+
+.main-right > #login-in{
+    border: none;
+    font-size: 14px;
+    height: auto;
+    width: 120px;
+    margin-left: 120px;
+    color:#9fa3b0;
+}
+
+#login-in > a{
+    margin-left: 5px;
+    color: #53cac3;
+    text-decoration: none;
+}
+
+input:focus{
+    outline: 0;
+}
+
+/* 加个div，它的权重就盖过了 .main-right > div*/
+div.border{
+    border: 1px solid #00d7c6;
+}
+
+#type{
+    border: none;
+}
+
+#type > div{
+    height: 30px;
+    width: 140px;
+    border: 1px solid #9fa3b0;
+    text-align: center;
+    padding-top: 10px;
+}
+
+#type > div:first-child{
+    margin-right: 20px;
+}
+
+#type > div > input{
+    /* visibility: hidden; */
+    display: none;
+}

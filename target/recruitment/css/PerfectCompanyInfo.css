@@ -1,0 +1,111 @@
+@import'main.css';
+
+body{
+    background-color: #f6f6f8;
+}
+
+img{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+#header{
+    display: flex;
+    height: 40px;
+    padding-top: 10px;
+    background:#37393c;
+    color: white;
+}
+
+#header i{
+    color:#00c2b3;
+}
+
+#header > .C1{
+    margin-left: 40px;
+    flex: auto;
+    font-size: 20px;
+}
+
+.C1 > i{
+    font-size: 26px;
+}
+
+#header > .C2{
+    margin-left: 100px;
+    margin-right: 40px;
+    padding-top: 5px;
+}
+
+.C3{
+    margin-right: 40px;
+}
+
+#main{
+    background-color: white;
+    border: 2px solid gainsboro;
+    border-radius: 10px;
+    margin: 80px 200px 0px 200px;
+}
+
+#main > h2{
+    color: #38ada9;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#main > form > div{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 180px;
+    display: inline-block;
+}
+
+#main p{
+    color: #38ada9;
+    font-weight: 900;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+#main > form >  div > div{
+    width: 300px;
+    height: 40px;
+    border: 1px solid #9fa3b0;
+}
+
+#main i{
+    color: #38ada9;
+    display: inline-block;
+}
+
+#main input{
+    outline: none;
+    height: 28px;
+    border: none;
+    width: 200px;
+}
+
+textarea{
+    width: 730px;
+    line-height: 26px;
+    outline: none;
+    height: 150px;
+    padding: 10px;
+    border:0;
+    border-radius:5px;
+    background-color:rgba(241,241,241,.98);
+}
+
+#main > form > div:nth-child(6) > input{
+    width: 160px;
+    height: 30px;
+    border: none;
+    color: white;
+    background: #00d7c6;
+    cursor: pointer;
+    outline: none;
+    margin-right: 20px;
+}

@@ -1,0 +1,245 @@
+@import'main.css';
+
+body{
+    background-color: #f6f6f8;
+}
+
+img{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+#header{
+    display: flex;
+    height: 40px;
+    padding-top: 10px;
+    background:#37393c;
+    color: white;
+}
+
+#header i{
+    color:#00c2b3;
+}
+
+#header > .C1{
+    margin-left: 40px;
+    flex: auto;
+    font-size: 20px;
+}
+
+.C1 > i{
+    font-size: 26px;
+}
+
+#header > .C2{
+    margin-left: 100px;
+    margin-right: 40px;
+    padding-top: 5px;
+}
+
+.C3{
+    margin-right: 40px;
+}
+
+#body > #left{
+    width: 300px;
+    height: 250px;
+    background-color: white;
+    margin: 20px 40px 0 40px;
+    border: #fefefe 1px solid;
+    float: left;
+    cursor: pointer;
+}
+
+#left > div{
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#left > div > img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+#Company{
+    margin-bottom: 20px;
+}
+
+.BigBox{
+    display: flex;
+}
+
+.box{
+    display: inline-block;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+}
+.gray{
+    color: #9fa3af;
+}
+
+#right{
+    margin-left: 400px;
+    margin-top: 40px;
+}
+
+ul li{
+    list-style: none;
+}
+
+.Job{
+    height: 80px;
+    width: auto;
+    margin-right: 320px;
+    background-color: white;
+    display: flex;
+    margin-bottom: 20px;
+    border: 2px solid gainsboro;
+    border-radius: 10px;
+}
+
+.Job a{
+    text-decoration: none;
+    display: inline-block;
+}
+
+.Job a:hover{
+    cursor: pointer;
+}
+
+.Job > div:nth-child(1){
+    width: 540px;
+    margin-left: 10px;
+    margin-top: 11px;
+    margin-bottom: 10px;
+}
+
+#JobTitle, #WorkPlace{
+    font-size: 22px;
+    overflow: hidden;
+    color: #53cac3;
+}
+
+#ReleaseTime{
+    color: #787f8f;
+    margin-left: 8px;
+}
+
+.ListBoxLeft{
+    margin-top: 6px;
+}
+
+#Salary{
+    color: tomato;
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+#ExperienceRequirement{
+    color:#787f8f;
+}
+
+.ListBoxLeft > span:nth-child(3){
+    display: inline-block;
+    height: 13px;
+    width: 8px;
+    vertical-align: middle;
+    border-right: 2px solid #787f8f;
+    margin-right: 6px;
+}
+
+#AcademicRequirements{
+    color: #787f8f;
+}
+
+.ListBoxRight{
+    flex: auto;
+}
+
+.radio{
+    display: inline-block;
+    height: 30px;
+    width: 80px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #9fa3b0;
+    margin-left: 8px;
+}
+
+.radio:hover{
+    cursor: pointer;
+}
+
+.radio > input{
+    display: none;
+}
+
+.radio > input:hover{
+    cursor: pointer;
+}
+
+.radio > label:hover{
+    cursor: pointer;
+}
+
+.ListBoxRight > div:nth-child(1){
+    height: 38px;
+    line-height: 38px;
+}
+
+.ListBoxRight > div:nth-child(1) a{
+    color: black;
+    text-decoration: none;
+    pointer-events: none;
+}
+
+.ListBoxRight > div:nth-child(1) > span{
+    display: inline-block;
+    height: 20px;
+    width: 25px;
+    line-height: 20px;
+    background-color: red;
+    margin-left: 8px;
+    color: white;
+    text-align: center;
+    border-radius: 40%;
+}
+
+#PostJob{
+    background-color: #00d7c6;
+    margin-top: 26px;
+    margin-bottom: 0px;
+    padding: 0px;
+    border: solid 20px white;
+    height: 35px;
+    width: 261px;
+    position: absolute;
+    top: 360px;
+    left: 40px;
+    text-align: center;
+}
+
+#PostJob > a{
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    width: 261px;
+    height: 35px;
+    line-height: 35px;
+}
+
+.ListBoxRight ul .li{
+    display: none;
+}
+
+.ListBoxRight ul:hover .li{
+    display: block;
+}
