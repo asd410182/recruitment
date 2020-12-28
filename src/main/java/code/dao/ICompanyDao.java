@@ -16,6 +16,7 @@ public interface ICompanyDao{
 	@Select("select * from company where cid =#{cid}")
 	public Company findByCid(Integer cid);
 
+
 	//查询所有公司
 	@Select("select * from company")
 	public List<Company> findAllCompany();

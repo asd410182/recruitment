@@ -97,9 +97,7 @@ public class ICompanyController {
 		System.out.println(position.toString());
 
 		positionService.savePosition(position);
-
 		attr.addAttribute("cid",position.getPcid());
-
 		return "redirect:/company/jumpToCompany";
 	}
 
@@ -137,7 +135,7 @@ public class ICompanyController {
 		return "redirect:/company/jumpBackCompanyData";
 	}
 
-	//跳转到公司信息管理页面
+	//跳转回公司信息管理页面
 	@RequestMapping(value ="/jumpBackCompanyData")
 	public String jumpBackCompanyData(ServletRequest request,Model model){
 		String cid =request.getParameter("cid");
@@ -146,9 +144,13 @@ public class ICompanyController {
 	}
 
 
-
-
-
+	//跳转到信息完善界面
+	@RequestMapping(value ="/jumpToPerfectCompanyData")
+	public String jumpToPerfectCompanyData(ServletRequest request,Model model){
+		String cid =request.getParameter("cid");
+		model.addAttribute("cid",cid);
+		return "PerfectCompanyInfo";
+	}
 
 
 
