@@ -91,16 +91,15 @@ public class IUserController {
 			String aid = String.valueOf(uid);
 			Integer id = Integer.valueOf(aid);
 			String name = applicantService.findById(id).getAname();
-//			System.out.println(name);
-//			if(name == null) {
-//				attr.addAttribute("cid",cid);
-//				return "redirect:/company/jumpToPerfectCompanyData";
-//			}
-//			else{
-//				model.addAttribute("aid", id);
-//				return "CompanyHome";
-//			}
-			return"";
+			System.out.println(name);
+			if(name == null) {
+				attr.addAttribute("aid",aid);
+				return "redirect:";
+			}
+			else{
+				model.addAttribute("aid", aid);
+				return "";//招聘公司页面不确定
+			}
 		}
 		else {
 			String cid = String.valueOf(uid);
@@ -112,7 +111,7 @@ public class IUserController {
 				return "redirect:/company/jumpToPerfectCompanyData";
 			}
 			else{
-				model.addAttribute("aid", id);
+				model.addAttribute("cid", cid);
 				return "CompanyHome";
 			}
 		}

@@ -78,6 +78,15 @@ public class ICompanyController {
 		return myList;
 	}
 
+	//主页面ajax信息传递
+	@ResponseBody
+	@RequestMapping(value ="/updateJobStatus" ,produces = "text/json; charset=utf-8")
+	public String updateJobStatus(@RequestParam(value = "pid")Integer pid,@RequestParam(value = "pisopen")String pisopen, Model model){
+		//根据用户id查询用户身份
+		positionService.updatePisopen(pid,pisopen);
+		return positionService.findByPid(pid).getPisopen();
+	}
+
 	//跳转到发布职位页面
 	@RequestMapping("/jumpToPostJob")
 	public String jumpToPostJob(Integer cid,Model model){
@@ -118,7 +127,7 @@ public class ICompanyController {
 
 	//招聘公司信息管理页面ajax信息传递
 	@ResponseBody
-	@RequestMapping(value = "companyData",produces = "text/json; charset=utf-8")
+	@RequestMapping(value = "/companyData",produces = "text/json; charset=utf-8")
 	public String companyData(@RequestParam(value = "cid")Integer cid,Model model){
 		Company company = companyService.findByCid(cid);//得到公司信息
 		String companyData = new Gson().toJson(company);
@@ -126,7 +135,7 @@ public class ICompanyController {
 	}
 
 	//更新招聘公司信息
-	@RequestMapping(value = "updateMyData")
+	@RequestMapping(value = "/updateMyData")
 	public String updateMyData(Company company, RedirectAttributes attr){
 		System.out.println(company.toString());
 		System.out.println(company.getCid());
@@ -154,9 +163,18 @@ public class ICompanyController {
 
 
 
+	//更新招聘公司信息
+	@RequestMapping(value = "/updateData")
+	public String updateData(Company company, RedirectAttributes attr){
+		System.out.println(company);
+		companyService.updateCompany(company);
+		attr.addAttribute("cid",company.getCid());
+		return "redirect:/company/jumpToCompany";
+	}
+
 
 	//跳转到查看职位信息页面
-	@RequestMapping(value = "jumpToResume")
+	@RequestMapping(value = "/jumpToResume")
 	public String jumpToResume(String pid,String cid,Model model){
 		model.addAttribute("pid",pid);
 		model.addAttribute("cid",cid);
@@ -174,46 +192,7 @@ public class ICompanyController {
 	}
 
 
-
-
-
-	@ResponseBody
-	@RequestMapping(value ="/havePosition",produces = "text/json; charset=utf-8")
-	public String havePosition(String cid){
-		System.out.println(cid);
-		Integer id =Integer.valueOf(cid);
-		List<Position> positions = positionService.findByPcid(id);
-		String myplaces = new Gson().toJson(positions);
-		System.out.println(positions);
-		return myplaces;
-	}
-
-
-	@RequestMapping(value = "jumpToSuccess")
-	public String jumpToSucess(String pid,Model model){
-		model.addAttribute("pid",pid);
-		return "success";
-	}
-
-//	@ResponseBody
-//	@RequestMapping(value = "haveApplicant",produces = "text/json; charset=utf-8")
-//	public String haveApplicant(String pid,Model model){
-//		Integer id =Integer.valueOf(pid);
-//		List<Applyforlocation> applyforlocations = applyforlocationService.findByApid(id);
-//		model.addAttribute("position",positionService.findByPid(id));
-//		List<Applicant> applicants = new ArrayList<>();
-//		for(int i = 0; i < applyforlocations.size(); i++){
-//			applicants.add(applicantService.findById(applyforlocations.get(i).getAaid()));
-//		}
-//		List list = new ArrayList();
-//		list.add(applicants);
-//		list.add(applyforlocations);
-//		String endList = new Gson().toJson(list);
-//		System.out.println(endList);
-//		return endList;
-//	}
-
-
+	//文件下载
 	@ResponseBody
 	@RequestMapping("/fileDownload")
 	public ResponseEntity<byte[]> fileDownload(HttpServletRequest request, @RequestParam(value="aaid") Integer aaid, @RequestParam(value="apid")Integer apid) throws Exception{
@@ -226,4 +205,5 @@ public class ICompanyController {
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.OK);
 	}
+
 }

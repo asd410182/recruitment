@@ -15,14 +15,6 @@ let edit = document.querySelector("#edit");
 window.onload = function(){
     let inputs = document.querySelectorAll("input[type='text']");
     inputs = Array.from(inputs);
-    let textarea = document.querySelector("textarea");
-    DefaultUserName = document.querySelectorAll("#UserName")[2].value;
-    DefaultPhoneNumber = document.querySelector("#PhoneNumber").value;
-    DefaultEmail = document.querySelector("#Email").value;
-    DefaultLocation = document.querySelector("#Location").value;
-    DefalutCompanyIntro = document.querySelector("#CompanyIntro").value;
-    textarea.disabled = "disabled";
-    textarea.style.background = "white";
     for(const val of inputs){
         val.disabled = "disabled";
         val.style.background = "white";
@@ -34,7 +26,24 @@ window.onload = function(){
             "cid":cid
         },
         success: function (result) {
-            console.log(result);
+            let names = document.querySelectorAll("#UserName");
+            for (const name of names) {
+                name.innerText = result.cname;
+            }
+            names[2].value = result.cname;
+            document.querySelector("#PhoneNumber").value = result.cphone;
+            document.querySelector("#Email").value = result.cemail;
+            document.querySelector("#Location").value = result.caddress;
+            document.querySelector("#CompanyIntro").value = result.cintroduction;
+
+            let textarea = document.querySelector("textarea");
+            DefaultUserName = document.querySelectorAll("#UserName")[2].value;
+            DefaultPhoneNumber = document.querySelector("#PhoneNumber").value;
+            DefaultEmail = document.querySelector("#Email").value;
+            DefaultLocation = document.querySelector("#Location").value;
+            DefalutCompanyIntro = document.querySelector("#CompanyIntro").value;
+            textarea.disabled = "disabled";
+            textarea.style.background = "white";
         },
         error: function(){
             alert("服务器跑到火星去了，请稍后再试！");

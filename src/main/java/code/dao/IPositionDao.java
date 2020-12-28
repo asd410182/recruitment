@@ -14,8 +14,9 @@ public interface IPositionDao {
 	public void savePosition(Position position);
 
 	//修改职位状态
-	@Update("update position set pisopen = #{pisopen} where pid = #{pid}")
-	public void updatePisopen(Position position);
+	@Update("update position set pisopen = #{arg0} where pid = #{arg1}")
+	public void updatePisopen(Integer pid,String pisopen);
+
 //	@Update("update position set pisopen = #{pisopen},pneed = #{pneed},pcontent = #{pcontent},psalary = #{psalary},pisopen = #{pisopen},plocation = #{plocation} where")
 	//展示所有职位
 	@Select("select * from position")

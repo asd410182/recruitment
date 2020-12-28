@@ -43,4 +43,8 @@ public class PositionServiceImpl implements IPositionService {
 	public List<Position> findByName(String name){
 		return positionDao.findByName(name);
 	}
+
+	public void updatePisopen(Integer pid,String pisopen){
+		positionDao.updatePisopen(pid,pisopen);
+	}
 }

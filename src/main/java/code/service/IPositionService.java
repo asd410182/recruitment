@@ -9,8 +9,8 @@ public interface IPositionService {
 	//保存职位
 	public void savePosition(Position position);
 
-//	//修改职位信息
-//	public void updatePosition(Position position);
+	//修改职位状态
+	public void updatePisopen(Integer pid,String pisopen);
 
 	//展示所有职位
 	public List<Position> findAllPosition();

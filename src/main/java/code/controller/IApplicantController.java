@@ -167,6 +167,6 @@ public class IApplicantController {
 		upload.transferTo(new File(path,filename));
 		applyforlocation.setAfilepath(filename);
 		applyforlocationService.saveRecording(applyforlocation);
-		return"success";
+		return "";
 	}
 }

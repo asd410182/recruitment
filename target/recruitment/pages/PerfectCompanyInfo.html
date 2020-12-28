@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>人才招聘网</title>
+    <title>人才招聘系统</title>
     <link rel="stylesheet" href="../css/PerfectCompanyInfo.css">
     <script src="../js/jquery-3.5.1.min.js"></script>
     <script th:inline="javascript">
         var cid= [[${cid}]];
         console.log(cid);
     </script>
-    <script src="../js/jump.js"></script>
 </head>
 <body>
 <div id="header">
@@ -28,12 +27,12 @@
 </div>
 <div id="main">
     <h2>完善企业信息</h2>
-    <form method="post" action="/company/updateMyData" onsubmit="Submit()">
+    <form method="post" action="/company/updateData" onsubmit="Submit()">
         <div>
             <p>名称</p>
             <div>
                 <i class="iconfont">&#xe699;</i>
-                <input type="text" name="cname" value="哪都通速递公司" id="UserName">
+                <input type="text" id="UserName" name="cname">
             </div>
             <span id="UserNameError">企业名称不能为空</span>
         </div>
@@ -41,7 +40,7 @@
             <p>电话</p>
             <div>
                 <i class="iconfont">&#xe6f9;</i>
-                <input type="text" name="cphone" value="400-800-1688" id="PhoneNumber">
+                <input type="text" id="PhoneNumber" name="cphone">
             </div>
             <span id="PhoneNumberError">手机号不能为空</span>
         </div>
@@ -49,7 +48,7 @@
             <p>邮箱</p>
             <div>
                 <i class="iconfont">&#xe648;</i>
-                <input type="text" name="cemail" value="shizhou.fsz@alibaba-inc.com" id="Email">
+                <input type="text" id="Email" name="cemail">
             </div>
             <span id="EmailError">邮箱不能为空</span>
         </div>
@@ -57,28 +56,25 @@
             <p>地址</p>
             <div>
                 <i class="iconfont">&#xe6f3;</i>
-                <input type="text" name="caddress" value="浙江省杭州市滨江区网商路699号" id="Location">
+                <input type="text" id="Location"  name="caddress">
             </div>
             <span id="LocationError">地址不能为空</span>
         </div>
         <div>
             <p>公司简介</p>
-            <textarea name="cintroduction" id="CompanyIntro" cols="30" rows="10">阿里巴巴(中国)网络技术有限公司成立于1999年09月09日，注册地位于浙江省杭州市滨江区网商路699号，法定代表人为戴珊。经营范围包括开发、销售计算机网络应用软件；设计、制作、加工计算机网络产品并提供相关技术服务和咨询服务；服务：自有物业租赁，翻译，成年人的非证书劳动职业技能培训（涉及许可证的除外）。（依法须经批准的项目，经相关部门批准后方可开展经营活动）阿里巴巴(中国)网络技术有限公司对外投资96家公司，具有37处分支机构。</textarea>
+            <textarea name="cintroduction" id="CompanyIntro" cols="30" rows="10"></textarea>
             <span id="CompanyIntroError">公司介绍不能为空</span>
         </div>
         <div>
             <input type="hidden" name="cid" id ="cid" value="">
-            <button type="button" id="edit" onclick="Edit(this);">编辑</button>
-            <input type="button" value="重置" id="reset" onclick="Reset()">
-            <input type="submit" value="保存" id="submit">
-            <input type="button" value="取消" id="cancel" onclick="Cancel()">
+            <input type="reset" value="清空">
+            <input type="submit" value="保存">
         </div>
     </form>
 </div>
-<script src="../js/EditCompanyInfo.js"></script>
+<script src="../js/PerfectCompanyInfo.js"></script>
 <script>
     $("#cid").val(cid);//#是对id处理
-    console.log($("#cid").val())
 </script>
 </body>
 </html>
