@@ -116,6 +116,8 @@ public class IApplicantController {
 	}
 
 
+	//职位查看页面
+
 	//跳转到职位信息查看页面
 	@RequestMapping("/jumpToPosition")
 	public String jumpToPosition(String aid,String pid,Model model){
@@ -126,11 +128,11 @@ public class IApplicantController {
 		Company company = companyService.findByCid(position.getPcid());
 		model.addAttribute("position",position);
 		model.addAttribute("company",company);
-		return "";
+		return "ResumeDelivery";
 	}
 
 
-	//文件上传职位信息查看页面）
+	//文件上传
 	@ResponseBody
 	@RequestMapping("/fileUpload")
 	public String fileUpload(HttpServletRequest request,Applyforlocation applyforlocation,MultipartFile upload, RedirectAttributes attr)throws Exception {
@@ -166,12 +168,12 @@ public class IApplicantController {
 		}
 	}
 
-
+	//进行应聘者信息管理
 	//跳转到应聘者信息管理页面
 	@RequestMapping(value ="/jumpToApplicantData")
 	public String jumpToOne(String aid,Model model){
 		model.addAttribute("aid",aid);
-		return "";
+		return "Personalinfo";
 	}
 
 	//显示应聘者信息（个人信息管理页面）
@@ -179,10 +181,18 @@ public class IApplicantController {
 	@RequestMapping(value ="/showMyData",produces = "text/json; charset=utf-8")
 	public String showMyData(Integer aid){
 		System.out.println(aid);
+		List lists = new ArrayList();
+		List<Position> positionList = new ArrayList();
 		Applicant applicant =applicantService.findById(aid);
+		lists.add(applicant);
+		List<Applyforlocation> applyforlocationList = applyforlocationService.findByAaid(aid);
+		for(int i = 0; i < applyforlocationList.size(); i++){
+			positionList.add(positionService.findByPid(applyforlocationList.get(i).getApid()));
+		}
 		//假设已经从后端获取到list数据，直接把list传到toJson（）方法中就行。
-		String data = new Gson().toJson(applicant);
-		return data;
+		lists.add(positionList);
+		String endList = new Gson().toJson(lists);
+		return endList;
 	}
 
 	//修改应聘者信息（个人信息管理页面）
@@ -199,79 +209,36 @@ public class IApplicantController {
 	public String jumpBackApplicantDat(ServletRequest request, Model model){
 		String aid =request.getParameter("aid");
 		model.addAttribute("aid",aid);
-		return "";
+		return "Personalinfo";
 	}
 
 
+	//注册后信息没完善时进行的操作
+
+	//跳转到信息完善界面
+	@RequestMapping(value ="/jumpToPerfectApplicant")
+	public String jumpToPerfectApplicant(ServletRequest request,Model model){
+		String aid =request.getParameter("aid");
+		model.addAttribute("aid",aid);
+		return "PerfectApplicant";
+	}
+
+	//完善招聘公司信息
+	@RequestMapping(value = "/updateData")
+	public String updateData(Applicant applicant, RedirectAttributes attr){
+		System.out.println(applicant);
+		applicantService.updateApplicant(applicant);
+		attr.addAttribute("aid",applicant.getAid());
+		return "redirect:/applicant/jumpToApplicant";
+	}
+
+	//跳回主页面
+	@RequestMapping(value ="/jumpToApplicant")
+	public String jumpToCompany(ServletRequest request, Model model){
+		String aid =request.getParameter("aid");
+		model.addAttribute("aid",aid);
+		return "ApplicantHome";
+	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//	//	跳转回应聘公司主页面
-//	@RequestMapping(value ="/jumpToApplicantHomepage")
-//	public String jumpToApplicantHomepage(String aid,Model model){
-//		model.addAttribute("aid",aid);
-//		return "applicant_homepage";
-//	}
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//	//查看已经提交简历的职位（个人信息管理页面）
-//	@ResponseBody
-//	@RequestMapping(value ="/haveSubmitPosition",produces = "text/json; charset=utf-8")
-//	public String haveSubmitPosition(Integer aid){
-//		List<Applyforlocation> locations=applyforlocationService.findByAaid(aid);
-//		List<Position> positions = new ArrayList<>();
-//		List<Company> companys = new ArrayList<>();
-//		List lists = new ArrayList();
-//		lists.add(locations);
-//		for(int i = 0; i < locations.size(); i++){
-//			Position position =(positionService.findByPid(locations.get(i).getApid()));
-//			positions.add(position);
-//			companys.add(companyService.findByCid(position.getPcid()));
-//		}
-//		lists.add(positions);
-//		lists.add(companys);
-//		String endList =  new Gson().toJson(lists);
-//		return endList;
-//	}
-
-
-
-
-
-
-
-//	//跳转回职位信息查看页面
-//	@RequestMapping("/jumpBackPosition")
-//	public String jumpBackPosition(String aid,String pid,Model model){
-//		model.addAttribute("aid",aid);
-//		model.addAttribute("pid",pid);
-//		Integer id= Integer.valueOf(pid);
-//		Position position = positionService.findByPid(id);
-//		model.addAttribute("position",position);
-//		return "position";
-//	}
 }

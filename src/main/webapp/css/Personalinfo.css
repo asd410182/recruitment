@@ -14,7 +14,7 @@ img{
     height: 40px;
     background-color:rgb(56, 57, 61);
     padding-top: 10px;
-    color: white;   
+    color: white;
 }
 
 #header1 i{
@@ -90,7 +90,7 @@ div #left {
 #top{
     position: relative;
     width: 1000px;
-    height: 420px;
+    height: 480px;
     margin-left: 100px;
     margin-top: 40px;
     background: white;
@@ -170,6 +170,7 @@ form > div:nth-child(2) > button{
 }
 
 #button1{
+    margin-top: 40px;
     margin-bottom: 10px;
     margin-left: 120px;
     display: inline-block;
@@ -186,11 +187,17 @@ form > div:nth-child(2) > button{
     outline: none;
 }
 
+#button1 > #cancel{
+    display: none;
+}
+
 #bottom{
     position: relative;
     width: 1000px;
-    margin-left: 100px;
+    margin-left: 70px;
     margin-top: 80px;
+    padding: 10px;
+    padding-bottom: 20px;
 }
 
 #bottom > h2{
@@ -200,22 +207,32 @@ form > div:nth-child(2) > button{
     margin-top: 20px;
 }
 
-#bottom > div{
+#bottom > a{
+    text-decoration: none;
+    display: block;
+    width: 1000px;
+    height: 60px;
+    line-height: 60px;
+    margin-left: 20px;
+    margin-top: 30px;
+    background: white;
+    box-shadow: 2px 2px 4px 2px gainsboro;
     display: flex;
     justify-content: space-around;
-    align-items: center;
-    width: 800px;
-    height: 50px;
-    margin-top: 30px;
-    margin-left: 20px;
-    background: white;
-    border: 2px solid gainsboro;
-    border-radius: 10px;
 }
 
-.JobTitle, .CpName, .ReleaseTime, .ResumeStatus{
+.JobTitle, .CpName, .PostTime, .ResumeStatus{
     color: #38ada9;
     font-weight: 900;
     font-size: 18px;
     margin-bottom: 5px;
+}
+
+#input1 .NameError, #input1 .AgeError, #input1 .JobError, #input1 .EducationError, #input1 .PhoneError, #input1 .EmailError{
+    color: red;
+    font-size: 14px;
+    font-weight: normal;
+    margin-top: 12px;
+    height: 20px;
+    visibility: hidden;
 }

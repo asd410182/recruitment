@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>个人信息管理</title>
+    <style type="text/css"></style>
+    <link rel="stylesheet" href="../css/Personalinfo.css">
+    <link type="text/css" rel="stylesheet" href="../css/UserInfoBox_Component.css">
+    <script src="../js/IconForUserView.js"></script>
+    <script src="../js/jquery-3.5.1.min.js"></script>
+    <script src="../js/Personalinfo.js"></script>
+</head>
+<body>
+<div id="header">
+    <div id="header1">
+        <div class="C1">
+            <i class="iconfont">&#xe60d;</i>
+            <span>欢迎来到人才招聘网</span>
+        </div>
+        <div class="C3">
+            <img src="../images/logo.jpg" alt="">
+        </div>
+        <div class="C2">
+            <i class="iconfont">&#xe640;</i>
+            <span id="UserName">用户名</span>
+        </div>
+    </div>
+    <div id="header2">
+        <i class="iconfont">&#xe688;</i>
+        <h2>人才招聘网</h2>
+        <h1>个人信息管理</h1>
+    </div>
+</div>
+<div id="middle">
+    <div id="left">
+        <div id="UserInfoBoxInstance" class="UserInfoBox">
+            <div id="UserNameAndAccountContainerInstance" class="UserNameAndAccountContainer">
+                <svg class="UserIcon">
+                    <use xlink:href="#icon-icon-life-people"></use>
+                </svg>
+                <div id="UserInfoBoxUserName" class="UserName">
+                    hello_world
+                </div>
+                <div id="UserInfoBoxUserAccount" class="UserAccount">
+                    verylonghello_world
+                </div>
+            </div>
+            <img src="../images/banner.png" alt="" style="width: 250px; height: 250px;">
+        </div>
+    </div>
+    <div id="right">
+        <div id="top">
+            <h2>个人信息</h2>
+            <form action="/applicant/updateMyData" onsubmit="return Submit();" method="post">
+                <div id="input1">
+                    <div>
+                        <p>姓名</p>
+                        <div>
+                            <i class="iconfont">&#xe699;</i>
+                            <input type="text" value="王禧曈" id="UserName" name="aname">
+                            <p class="NameError">名字不能为空</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>年龄</p>
+                        <div>
+                            <i class="iconfont">&#xe699;</i>
+                            <input type="text" value="20" id="UserAge" name="aage">
+                            <p class="AgeError">年龄不能为空</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>学历</p>
+                        <div>
+                            <i class="iconfont">&#xe699;</i>
+                            <select id="UserEdu" name="aeducation">
+                                <option value="本科">本科</option>
+                                <option value="专科及以下">专科及以下</option>
+                                <option value="硕士">硕士</option>
+                                <option value="博士及以上">博士及以上</option>
+                            </select>
+                            <p class="EducationError">学历不能为空</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>求职状态</p>
+                        <div>
+                            <i class="iconfont">&#xe699;</i>
+                            <select id="JobSS" name="ajobstatus">
+                                <option value="在校-暂不考虑">在校-暂不考虑</option>
+                                <option value="离校-随时到岗">离校-随时到岗</option>
+                                <option value="在校-考虑机会">在校-考虑机会</option>
+                                <option value="在校-月内到岗">在校-月内到岗</option>
+                            </select>
+                            <p class="JobError">工作经验不能为空</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>电话</p>
+                        <div>
+                            <i class="iconfont">&#xe6f9;</i>
+                            <input type="text" value="1112223333" id="PhoneNumber" name="aphone">
+                            <p class="PhoneError">手机号不能为空</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>邮箱</p>
+                        <div>
+                            <i class="iconfont">&#xe648;</i>
+                            <input type="text" value="1234567@qq.com" id="Email" name="aemail">
+                            <p class="EmailError">邮箱不能为空</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="button1">
+                    <button type="button" id="edit" onclick="Edit(this);">编辑</button>
+                    <button type="button" id="cancel" onclick="Cancel(this);">取消</button>
+                    <input type="reset" value="重置" onclick="Reset()">
+                    <input type="submit" value="保存">
+                </div>
+            </form>
+        </div>
+
+        <div id="bottom">
+            <h2>简历信息</h2>
+            <a href="./ResumeDelivery.html">
+                <span class="JobTitle">清洁工</span>
+                <span class="CpName">？？？？公司</span>
+                <span class="PostTime">2020.12.18</span>
+                <span class="ResumeStatus">未处理</span>
+            </a>
+            <a href="#">
+                <span class="JobTitle">清洁工</span>
+                <span class="CpName">？？？？公司</span>
+                <span class="PostTime">2020.12.18</span>
+                <span class="ResumeStatus">等待面试</span>
+            </a>
+            <a href="#">
+                <span class="JobTitle">清洁工</span>
+                <span class="CpName">？？？？公司</span>
+                <span class="PostTime">2020.12.18</span>
+                <span class="ResumeStatus">已拒绝</span>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

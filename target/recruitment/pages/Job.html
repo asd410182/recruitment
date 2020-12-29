@@ -76,13 +76,16 @@
         </div>
     </div>
     <div class="bottom">
-        <p>收到简历：<span id="deal">10</span></p>
+        <p>收到简历：<span id="deal"></span></p>
         <p></p>
         <ul th:each="user:${applicantList}">
             <li>
                 <div>
-                    <p><span id="aName" th:text="${user.aname}">张三</span></p>
-                    <p><span id="age" th:text="${user.aage}">23岁</span> <span id="Education" th:text="${user.aeducation}">本科</span> <span id="EmploymentStatus" th:text="${user.ajobstatus}">随时可就职</span></p>
+                    <p><span id="aName" th:text="${user.aname}"></span></p>
+                    <p><span id="age" th:text="${user.aage}"></span>
+                        <span id="Education" th:text="${user.aeducation}"></span>
+                        <span id="EmploymentStatus" th:text="${user.ajobstatus}"></span>
+                    </p>
                 </div>
                 <div th:each="data : ${applyforlocationList}"	th:if="${data.aaid} eq ${user.aid}">
                     <a th:href="@{/company/fileDownload(aaid=${data.aaid},apid=${data.apid})}">下载简历</a>
@@ -96,11 +99,11 @@
         </ul>
     </div>
     <div class="bottom">
-        <p>等待面试：<span id="offer">3</span></p>
+        <p>等待面试：<span id="offer"></span></p>
         <p></p>
         <ul th:each="user:${applicantList}">
             <li>
-                <div th:each="data:${applyforlocationList}" th:if="${data.aaid} eq {user.aid} && ${data.astatus} == '等待面试'">
+                <div th:each="data:${applyforlocationList}" th:if="${data.aaid} eq ${user.aid} && ${data.astatus} eq '等待面试'">
                     <p><span id="aName" th:text="${user.aname}">张三</span></p>
                     <p><span id="age" th:text="${user.aage}">23岁</span> <span id="Education" th:text="${user.aeducation}">本科</span> <span id="EmploymentStatus" th:text="${user.ajobstatus}">随时可就职</span></p>
                 </div>

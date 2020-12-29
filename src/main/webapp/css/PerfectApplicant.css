@@ -91,7 +91,7 @@ div #left {
     position: relative;
     width: 1000px;
     height: 480px;
-    margin-left: 100px;
+    margin-left: 180px;
     margin-top: 40px;
     background: white;
     border: 2px solid gainsboro;
@@ -177,7 +177,6 @@ form > div:nth-child(2) > button{
 }
 
 #button1 input{
-    display: none;
     width: 160px;
     height: 36px;
     border: none;
@@ -189,36 +188,6 @@ form > div:nth-child(2) > button{
 
 #button1 > #cancel{
     display: none;
-}
-
-#bottom{
-    position: relative;
-    width: 1000px;
-    margin-left: 70px;
-    margin-top: 80px;
-    padding: 10px;
-    padding-bottom: 20px;
-}
-
-#bottom > h2{
-    color: #38ada9;
-    width: 100%;
-    margin-left: 20px;
-    margin-top: 20px;
-}
-
-#bottom > a{
-    text-decoration: none;
-    display: block;
-    width: 1000px;
-    height: 60px;
-    line-height: 60px;
-    margin-left: 20px;
-    margin-top: 30px;
-    background: white;
-    box-shadow: 2px 2px 4px 2px gainsboro;
-    display: flex;
-    justify-content: space-around;
 }
 
 .JobTitle, .CpName, .PostTime, .ResumeStatus{

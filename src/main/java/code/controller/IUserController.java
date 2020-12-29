@@ -59,7 +59,7 @@ public class IUserController {
 		if (role.equals("applicant")){
 			String aid = String.valueOf(uid);
 			attr.addAttribute("aid",aid);
-			return "applicant_homepage";
+			return "redirect:/applicant/jumpToPerfectApplicant";
 		}
 		else {
 			String cid = String.valueOf(uid);
@@ -91,17 +91,16 @@ public class IUserController {
 			String aid = String.valueOf(uid);
 			Integer id = Integer.valueOf(aid);
 			model.addAttribute("aid",aid);
-			return "ApplicantHome";
-//			String name = applicantService.findById(id).getAname();
-//			System.out.println(name);
-//			if(name == null) {
-//				attr.addAttribute("aid",aid);
-//				return "redirect:";
-//			}
-//			else{
-//				model.addAttribute("aid", aid);
-//				return "applicant_homepage";//招聘公司页面不确定
-//			}
+			String name = applicantService.findById(id).getAname();
+			System.out.println(name);
+			if(name == null) {
+				attr.addAttribute("aid",aid);
+				return "redirect:/applicant/jumpToPerfectApplicant";
+			}
+			else{
+				model.addAttribute("aid", aid);
+				return "ApplicantHome";//招聘公司页面不确定
+			}
 		}
 		else {
 			String cid = String.valueOf(uid);

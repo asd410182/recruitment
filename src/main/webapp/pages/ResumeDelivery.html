@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投递简历界面</title>
+    <link rel="stylesheet" href="../css/ResumeDelivery.css">
+    <script src="../js/ResumeDelivery.js"></script>
+    <script>
+        //简历是否提交成功
+        $(function () {
+            $('#file').ajaxForm(function (data) {
+                if (data.status === "fail") {
+                    alert(data.reason)
+                } else {
+                    alert(data);
+                    window.location.reload()
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="header">
+    <div class="C1">
+        <i class="iconfont">&#xe60d;</i>
+        <span>欢迎来到人才招聘网</span>
+    </div>
+    <div class="C2">
+        <i class="iconfont">&#xe640;</i>
+        <span id="UserName">用户名</span>
+    </div>
+    <div class="C3">
+        <img src="../images/logo.jpg" alt="">
+    </div>
+</div>
+<div id="body">
+    <div class="top">
+        <h1 id="JobName">职位名称</h1>
+        <span id="JobSalary">4-8K</span>
+        <a href="javascript:void(0)"><p>点击上传文件</p><input type="file" onchange="getFile(this)" name="" id="PostResume" multiple="multiple"></a>
+        <p id="resume">简历.pdf</p>
+        <p><span id="city">杭州·</span><span id="ExperienceRequirement">经验不限·</span><span id="AcademicRequirements">本科</span></p>
+    </div>
+    <div class="middle">
+        <div class="DescText">
+            <p>职位描述</p>
+            <p></p>
+            <div id="JobDescription">
+                完成教学工作，包括课前准备、课上授课、组织测试、课后辅导、批改作业与测试、分析学员表现情况以及与家长的沟通反馈。
+                独立完成基本业务工作，包括完成续报数据等业务指标、按时完成周报汇总各时期基本工作情况。
+                学员班级群内维护答疑，解决学员及家长问题；
+                与家长保持良好沟通，及时反馈学生学习情况，关注学员课程报名情况。
+                听从组织安排的其他工作，包括按时参加会议、接受教育培训、积极参加相关文化活动等。
+                其他工作，上级安排的其他工作。
+                积极向上，愿意学习，有上进心，可管理培养。
+            </div>
+        </div>
+        <div class="OpDuty">
+            <p>任职要求</p>
+            <p></p>
+            <div id="OperatingDuty">
+                学历：本科及以上学历；
+                知识：英语专业专八或雅思、托福成绩；非英语专业（擅长理科）大学CET6或雅思、托福成绩；
+                能力：良好的语言表达能力，齿清晰，普通话标准；
+                技能：良好的英语水平，可实现日常的英语沟通；
+                素养：良好的职业操守，工作责任心强；非常好的服务意识；
+            </div>
+        </div>
+        <div class="Loc">
+            <p>工作地点</p>
+            <p></p>
+            <div>
+                <i class="iconfont">&#xe6f3;</i>
+                <p id="location">浙江省杭州市江干区白杨街道杭州电子科技大学下沙校区</p>
+            </div>
+        </div>
+        <div class="ComIntro">
+            <p>公司介绍</p>
+            <p></p>
+            <div id="CompanyIntro">
+                阿里巴巴集团的使命是让天下没有难做的生意。我们旨在赋能企业改变营销、销售和经营的方式。我们为商家、品牌及其他企业提供基本的互联网基础设施以及营销平台，让其可借助互联网的力量与用户和客户互动。我们的业务包括核心电商、云计算、数字媒体和娱乐以及创新项目和其他业务。我们并通过子公司菜鸟网络及所投资的关联公司口碑，参与物流和本地服务行业，同时与蚂蚁金融服务集团有战略合作，该金融服务集团主要通过中国领先的第三方网上支付平台支付宝运营。
+            </div>
+            <p>联系方式</p>
+            <p></p>
+            <div>
+                <i class="iconfont">&#xe6f9;</i>
+                <p id="PhoneNumber">17367101758</p>
+            </div>
+            <div>
+                <i class="iconfont">&#xe62d;</i>
+                <p id="Email">2606173264@qq.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

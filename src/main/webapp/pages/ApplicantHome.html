@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/ApplicantHome.css">
+    <title>人才招聘网</title>
+    <script src="../js/jquery-3.5.1.min.js"></script>
+    <script th:inline="javascript" >
+        var aid= [[${aid}]];
+        console.log(aid);
+    </script>
+</head>
+<body>
+<div id="header">
+    <div class="C1">
+        <i class="iconfont">&#xe60d;</i>
+        <span>欢迎来到人才招聘网</span>
+    </div>
+    <div class="C2">
+        <i class="iconfont">&#xe640;</i>
+        <span id="UserName">用户名</span>
+    </div>
+    <div class="C3">
+        <img src="../images/logo.jpg" alt="">
+    </div>
+</div>
+<div id="body">
+    <div class="left">
+        <div>
+            <img src="../images/logo.jpg" alt="" name="edit">
+            <p id="Company" name="edit">孙远远</p>
+            <div class="BigBox">
+                <div class="box">
+                    <span id="JobCount">40</span>
+                    <span class="gray">已投递</span>
+                </div>
+                <div class="box">
+                    <span id="InterviewCount">20</span>
+                    <span class="gray">等待面试</span>
+                </div>
+                <div class="box">
+                    <span id="OfferCount">10</span>
+                    <span class="gray">收到Offer</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="searchBar">
+            <select name="" id="select">
+                <option value="职位" checked="checked">职位</option>
+                <option value="公司">公司</option>
+            </select>
+            <input type="text" name="" id="search" placeholder="搜索公司、职位">
+            <button type="button" onclick="return search()"><i class="iconfont">&#xe6b3;</i></button>
+        </div>
+        <div class="list">
+            <ul>
+                <li>
+                    <div class="Job">
+                        <a href="./ResumeDelivery.html">
+                            <span id="JobTitle">清洁工</span>
+                            <span id="WorkPlace">[工作地点]</span>
+                        </a>
+                        <span id="ReleaseTime">发布于11月26日</span>
+                        <p class="ListBoxLeft"><span id="Salary">7-12K</span><span id="ExperienceRequirement">经验不限</span><span></span><span id="AcademicRequirements">本科</span></p>
+                    </div>
+                    <div class="Company">
+                        <p id="CompanyName">阿里巴巴集团</p>
+                        <p id="CompanyAddress">浙江省杭州市滨江区网商路699号</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="Job">
+                        <a href="./ResumeDelivery.html">
+                            <span id="JobTitle">清洁工</span>
+                            <span id="WorkPlace">[工作地点]</span>
+                        </a>
+                        <span id="ReleaseTime">发布于11月26日</span>
+                        <p class="ListBoxLeft"><span id="Salary">7-12K</span><span id="ExperienceRequirement">经验不限</span><span></span><span id="AcademicRequirements">本科</span></p>
+                    </div>
+                    <div class="Company">
+                        <p id="CompanyName">阿里巴巴集团</p>
+                        <p id="CompanyAddress">浙江省杭州市滨江区网商路699号</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="Job">
+                        <a href="./ResumeDelivery.html">
+                            <span id="JobTitle">清洁工</span>
+                            <span id="WorkPlace">[工作地点]</span>
+                        </a>
+                        <span id="ReleaseTime">发布于11月26日</span>
+                        <p class="ListBoxLeft"><span id="Salary">7-12K</span><span id="ExperienceRequirement">经验不限</span><span></span><span id="AcademicRequirements">本科</span></p>
+                    </div>
+                    <div class="Company">
+                        <p id="CompanyName">阿里巴巴集团</p>
+                        <p id="CompanyAddress">浙江省杭州市滨江区网商路699号</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="Job">
+                        <a href="./ResumeDelivery.html">
+                            <span id="JobTitle">清洁工</span>
+                            <span id="WorkPlace">[工作地点]</span>
+                        </a>
+                        <span id="ReleaseTime">发布于11月26日</span>
+                        <p class="ListBoxLeft"><span id="Salary">7-12K</span><span id="ExperienceRequirement">经验不限</span><span></span><span id="AcademicRequirements">本科</span></p>
+                    </div>
+                    <div class="Company">
+                        <p id="CompanyName">阿里巴巴集团</p>
+                        <p id="CompanyAddress">浙江省杭州市滨江区网商路699号</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="footer">
+
+</div>
+<script src="../js/jquery-3.5.1.min.js"></script>
+<script src="../js/ApplicantHome.js"></script>
+</body>
+</html>
