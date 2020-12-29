@@ -23,4 +23,7 @@ public interface IPositionService {
 
 	//根据名称模糊查询职位信息
 	public List<Position> findByName(String name);
+
+	//展示所有开放的职位
+	public List<Position> findAllOpenPosition();
 }

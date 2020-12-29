@@ -36,4 +36,16 @@ public interface IApplyforlocationDao {
 	@Select("select * from apply_for_location where apid = #{apid} and astatus ='已拒绝'")
 	public List<Applyforlocation> PositionNoPass(Integer apid);
 
+	//招聘者已经通过的简历
+	@Select("select * from apply_for_location where aaid = #{aaid} and astatus ='等待面试'")
+	public List<Applyforlocation> ResumeHasRefuse(Integer aaid);
+
+	//招聘者尚未处理的简历
+	@Select("select * from apply_for_location where apid = #{apid} and astatus ='未处理'")
+	public List<Applyforlocation> ResumeWaitInterview(Integer aaid);
+
+	//招聘者被拒绝的简历
+	@Select("select * from apply_for_location where apid = #{aaid} and astatus ='已拒绝'")
+	public List<Applyforlocation> ResumeHasAdopt(Integer aaid);
+
 }

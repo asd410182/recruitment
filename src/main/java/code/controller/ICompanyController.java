@@ -51,7 +51,7 @@ public class ICompanyController {
 	//主页面ajax信息传递
 	@ResponseBody
 	@RequestMapping(value ="/showTheData" ,produces = "text/json; charset=utf-8")
-	public String showTheData(@RequestParam(value = "cid")Integer cid, Model model){
+	public String showTheData(@RequestParam(value = "cid")Integer cid){
 		//根据用户id查询用户身份
 		Company company = companyService.findByCid(cid);
 		List list = new ArrayList();

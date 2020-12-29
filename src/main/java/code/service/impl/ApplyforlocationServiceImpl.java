@@ -4,6 +4,7 @@ import code.dao.IApplyforlocationDao;
 import code.domain.Applyforlocation;
 import code.service.IApplicantService;
 import code.service.IApplyforlocationService;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,5 +47,20 @@ public class ApplyforlocationServiceImpl implements IApplyforlocationService {
 	//被拒绝的简历
 	public List<Applyforlocation> PositionNoPass(Integer apid){
 		return applyforlocationDao.PositionNoPass(apid);
+	}
+
+	//招聘者已经通过的简历
+	public List<Applyforlocation> ResumeHasAdopt(Integer aaid){
+		return applyforlocationDao.ResumeHasAdopt(aaid);
+	}
+
+	//招聘者尚未处理的简历
+	public List<Applyforlocation> ResumeWaitInterview(Integer aaid){
+		return applyforlocationDao.ResumeWaitInterview(aaid);
+	}
+
+	//招聘者被拒绝的简历
+	public List<Applyforlocation> ResumeHasRefuse(Integer aaid){
+		return applyforlocationDao.ResumeHasRefuse(aaid);
 	}
 }

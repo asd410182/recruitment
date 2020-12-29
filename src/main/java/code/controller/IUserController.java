@@ -98,7 +98,7 @@ public class IUserController {
 			}
 			else{
 				model.addAttribute("aid", aid);
-				return "";//招聘公司页面不确定
+				return "applicant_homepage";//招聘公司页面不确定
 			}
 		}
 		else {

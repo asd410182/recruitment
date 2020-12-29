@@ -16,8 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -43,37 +47,42 @@ public class IApplicantController {
 	@Autowired
 	private IApplyforlocationService applyforlocationService;
 
-	//	跳转到应聘者主页面
-	@RequestMapping(value ="/jumpToApplicantHomepage")
-	public String jumpToApplicantHomepage(String aid,Model model){
-		model.addAttribute("aid",aid);
-		return "applicant_homepage";
-	}
 
-	//跳转到应聘者信息管理页面
-	@RequestMapping(value ="/jumpToApplicantData")
-	public String jumpToOne(String aid,Model model){
-		model.addAttribute("aid",aid);
-		return "applicant_information_manage";
-	}
-
-//	得到所有职位列表（应聘者主页面）
+	//主页面ajax信息传递
 	@ResponseBody
-	@RequestMapping(value ="/showPosition",produces = "text/json; charset=utf-8")
-	public String showPosition(){
-		List<Position> positions = positionService.findAllPosition();
-//		for (int x = 0; x < positions.size(); x++) {
-//			System.out.println(positions.get(x));
-//		}
-		//假设已经从后端获取到list数据，直接把list传到toJson（）方法中就行。
-		String places = new Gson().toJson(positions);
-		System.out.println(places);
-		return places;
+	@RequestMapping(value ="/applicantData" ,produces = "text/json; charset=utf-8")
+	public String applicantData(@RequestParam(value = "aid")Integer aid, Model model){
+		//根据用户id查询用户身份
+		List list = new ArrayList();
+//		int resumeHasDelivery=0;//投递简历的数量
+//		int resumeWaitInterview=0;//等待面试简历的数量
+//		int resumeHasAdopt=0;//已经通过简历的数量
+//		int resumeHasRefuse=0;//已经通过简历的数量
+		Applicant applicant =applicantService.findById(aid);
+		list.add(applicant);
+		int resumeHasAdopt = applyforlocationService.ResumeHasAdopt(aid).size();
+		list.add(resumeHasAdopt);
+		int resumeHasRefuse = applyforlocationService.ResumeHasRefuse(aid).size();
+		list.add(resumeHasRefuse);
+		int resumeWaitInterview = applyforlocationService.ResumeWaitInterview(aid).size();
+		list.add(resumeWaitInterview);
+		int resumeHasDelivery = resumeHasAdopt + resumeHasRefuse + resumeWaitInterview;
+		list.add(resumeHasDelivery);
+		List<Position> positionList = positionService.findAllOpenPosition();
+		list.add(positionList);
+		List<Company> companyList = new ArrayList<>();
+		for(int i = 0; i < positionList.size(); i++){
+			companyList.add(companyService.findByCid(positionList.get(i).getPcid()));
+		}
+		list.add(companyList);
+		String myList = new Gson().toJson(list);
+		return myList;
 	}
 
 	//搜索（搜索职位名称）
-	@RequestMapping(value ="/searchPosition")
-	public String searchPosition(String content,String aid,Model model){
+	@ResponseBody
+	@RequestMapping(value ="/searchPosition",produces = "text/json; charset=utf-8")
+	public String searchPosition(String content,Model model){
 //		System.out.println(applicant.toString());
 		List<Position> positionList =positionService.findByName("%"+content+"%");
 		List<Company> companyList = new ArrayList<>();
@@ -84,10 +93,67 @@ public class IApplicantController {
 			companyList.add(company);
 		}
 		lists.add(companyList);
-		model.addAttribute("aid",aid);
 		String endList =  new Gson().toJson(lists);
-		model.addAttribute("endList",endList);
-		return "inquire";
+		return endList;
+	}
+
+
+	//跳转到职位信息查看页面
+	@RequestMapping("/jumpToPosition")
+	public String jumpToPosition(String aid,String pid,Model model){
+		model.addAttribute("aid",aid);
+		model.addAttribute("pid",pid);
+		Integer id= Integer.valueOf(pid);
+		Position position = positionService.findByPid(id);
+		Company company = companyService.findByCid(position.getPcid());
+		model.addAttribute("position",position);
+		model.addAttribute("company",company);
+		return "";
+	}
+
+
+	//文件上传职位信息查看页面）
+	@ResponseBody
+	@RequestMapping("/fileUpload")
+	public String fileUpload(HttpServletRequest request,Applyforlocation applyforlocation,MultipartFile upload, RedirectAttributes attr)throws Exception {
+		Applyforlocation applyforlocation1 = applyforlocationService.findByPAid(applyforlocation.getApid(),applyforlocation.getAaid());
+		System.out.println(applyforlocation1);
+		if (applyforlocation1==null){
+			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+			Date nowDate= new Date();
+			String date= sdf.format(nowDate);
+			applyforlocation.setAsubmitime(date);
+			System.out.println(applyforlocation.toString());
+			//使用flieupload组件完成文件上传
+			//上传的位置
+			String path = request.getSession().getServletContext().getRealPath("/uploads/");
+			System.out.println(path);
+			File file =new File(path);
+			if(!file.exists()){
+				file.mkdirs();
+			}
+			//说明上传文件项
+			//获取上传文件的名称
+			String filename = upload.getOriginalFilename();
+			//把文件的名称设置为唯一值，uuid
+			String uuid = UUID.randomUUID().toString().replace("-","");
+			filename = uuid+"_"+filename;
+			upload.transferTo(new File(path,filename));
+			applyforlocation.setAfilepath(filename);
+			applyforlocationService.saveRecording(applyforlocation);
+			return "success";
+		}
+		else{
+			return "false";
+		}
+	}
+
+
+	//跳转到应聘者信息管理页面
+	@RequestMapping(value ="/jumpToApplicantData")
+	public String jumpToOne(String aid,Model model){
+		model.addAttribute("aid",aid);
+		return "";
 	}
 
 	//显示应聘者信息（个人信息管理页面）
@@ -103,70 +169,91 @@ public class IApplicantController {
 
 	//修改应聘者信息（个人信息管理页面）
 	@RequestMapping(value ="/updateMyData")
-	public String updateMyData(Applicant applicant,Model model){
+	public String updateMyData(Applicant applicant,RedirectAttributes attr){
 //		System.out.println(applicant.toString());
 		applicantService.updateApplicant(applicant);
-		model.addAttribute("aid",applicant.getAid());
-		return "applicant_information_manage";
+		attr.addAttribute("aid",applicant.getAid());
+		return "redirect:/applicant/jumpBackApplicantData";
 	}
 
-
-	//查看已经提交简历的职位（个人信息管理页面）
-	@ResponseBody
-	@RequestMapping(value ="/haveSubmitPosition",produces = "text/json; charset=utf-8")
-	public String haveSubmitPosition(Integer aid){
-		List<Applyforlocation> locations=applyforlocationService.findByAaid(aid);
-		List<Position> positions = new ArrayList<>();
-		List<Company> companys = new ArrayList<>();
-		List lists = new ArrayList();
-		lists.add(locations);
-		for(int i = 0; i < locations.size(); i++){
-			Position position =(positionService.findByPid(locations.get(i).getApid()));
-			positions.add(position);
-			companys.add(companyService.findByCid(position.getPcid()));
-		}
-		lists.add(positions);
-		lists.add(companys);
-		String endList =  new Gson().toJson(lists);
-		return endList;
-	}
-
-	//跳转到职位信息查看页面（职位信息查看页面）
-	@RequestMapping("/jumpToPosition")
-	public String jumpToPosition(String aid,String pid,Model model){
+	//跳转回公司信息管理页面
+	@RequestMapping(value ="/jumpBackApplicantDat")
+	public String jumpBackApplicantDat(ServletRequest request, Model model){
+		String aid =request.getParameter("aid");
 		model.addAttribute("aid",aid);
-		model.addAttribute("pid",pid);
-		Integer id= Integer.valueOf(pid);
-		Position position = positionService.findByPid(id);
-		model.addAttribute("position",position);
-		return "position";
-	}
-
-	//文件上传职位信息查看页面）
-	@RequestMapping("/fileUpload")
-	public String fileUpload(HttpServletRequest request,Applyforlocation applyforlocation,MultipartFile upload)throws Exception {
-		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-		Date nowDate= new Date();
-		String date= sdf.format(nowDate);
-		applyforlocation.setAsubmitime(date);
-		System.out.println(applyforlocation.toString());
-		//使用flieupload组件完成文件上传
-		//上传的位置
-		String path = request.getSession().getServletContext().getRealPath("/uploads/");
-		System.out.println(path);
-		File file =new File(path);
-		if(!file.exists()){
-			file.mkdirs();
-		}
-		//说明上传文件项
-		//获取上传文件的名称
-		String filename = upload.getOriginalFilename();
-		//把文件的名称设置为唯一值，uuid
-		String uuid = UUID.randomUUID().toString().replace("-","");
-		filename = uuid+"_"+filename;
-		upload.transferTo(new File(path,filename));
-		applyforlocation.setAfilepath(filename);
-		applyforlocationService.saveRecording(applyforlocation);
 		return "";
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//	//	跳转回应聘公司主页面
+//	@RequestMapping(value ="/jumpToApplicantHomepage")
+//	public String jumpToApplicantHomepage(String aid,Model model){
+//		model.addAttribute("aid",aid);
+//		return "applicant_homepage";
+//	}
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//	//查看已经提交简历的职位（个人信息管理页面）
+//	@ResponseBody
+//	@RequestMapping(value ="/haveSubmitPosition",produces = "text/json; charset=utf-8")
+//	public String haveSubmitPosition(Integer aid){
+//		List<Applyforlocation> locations=applyforlocationService.findByAaid(aid);
+//		List<Position> positions = new ArrayList<>();
+//		List<Company> companys = new ArrayList<>();
+//		List lists = new ArrayList();
+//		lists.add(locations);
+//		for(int i = 0; i < locations.size(); i++){
+//			Position position =(positionService.findByPid(locations.get(i).getApid()));
+//			positions.add(position);
+//			companys.add(companyService.findByCid(position.getPcid()));
+//		}
+//		lists.add(positions);
+//		lists.add(companys);
+//		String endList =  new Gson().toJson(lists);
+//		return endList;
+//	}
+
+
+
+
+
+
+
+//	//跳转回职位信息查看页面
+//	@RequestMapping("/jumpBackPosition")
+//	public String jumpBackPosition(String aid,String pid,Model model){
+//		model.addAttribute("aid",aid);
+//		model.addAttribute("pid",pid);
+//		Integer id= Integer.valueOf(pid);
+//		Position position = positionService.findByPid(id);
+//		model.addAttribute("position",position);
+//		return "position";
+//	}
 }

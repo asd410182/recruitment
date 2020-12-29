@@ -22,6 +22,10 @@ public interface IPositionDao {
 	@Select("select * from position")
 	public List<Position> findAllPosition();
 
+	//展示所有开放的职位
+	@Select("select * from position where pisopen='1'")
+	public List<Position> findAllOpenPosition();
+
 	//根据职位id查找职位
 	@Select("select * from position where pid = #{pid} ")
 	public Position findByPid(Integer pid);
@@ -30,7 +34,7 @@ public interface IPositionDao {
 	@Select("select * from position where pcid = #{pcid} ")
 	public List<Position> findByPcid(Integer pcid);
 
-	//根据名称模糊查询职位信息
-	@Select("select * from position where pname like #{name} ")
+	//根据名称模糊查询职位信息(职位必须是开放的)
+	@Select("select * from position where pname like #{name} and pisopen='1'")
 	public List<Position> findByName(String name);
 }

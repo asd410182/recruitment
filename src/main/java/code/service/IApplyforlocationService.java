@@ -26,4 +26,13 @@ public interface IApplyforlocationService {
 
 	//被拒绝的简历
 	public List<Applyforlocation> PositionNoPass(Integer apid);
+
+	//招聘者已经通过的简历
+	public List<Applyforlocation> ResumeHasAdopt(Integer aaid);
+
+	//招聘者尚未处理的简历
+	public List<Applyforlocation> ResumeWaitInterview(Integer aaid);
+
+	//招聘者被拒绝的简历
+	public List<Applyforlocation> ResumeHasRefuse(Integer aaid);
 }

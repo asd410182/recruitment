@@ -47,4 +47,8 @@ public class PositionServiceImpl implements IPositionService {
 	public void updatePisopen(Integer pid,String pisopen){
 		positionDao.updatePisopen(pid,pisopen);
 	}
+	//展示所有开放的职位
+	public List<Position> findAllOpenPosition(){
+		return positionDao.findAllOpenPosition();
+	}
 }
