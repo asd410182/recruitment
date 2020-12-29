@@ -38,6 +38,10 @@ public class PositionServiceImpl implements IPositionService {
 	public List<Position> findByPcid(Integer pcid){
 		return positionDao.findByPcid(pcid);
 	}
+	//应聘者根据公司id查找已开放职位列表
+	public List<Position> findByPcidAndPisopen(Integer pcid){
+		return positionDao.findByPcidAndPisopen(pcid);
+	}
 
 	//根据名称模糊查询职位信息
 	public List<Position> findByName(String name){

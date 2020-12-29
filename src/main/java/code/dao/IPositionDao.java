@@ -34,6 +34,10 @@ public interface IPositionDao {
 	@Select("select * from position where pcid = #{pcid} ")
 	public List<Position> findByPcid(Integer pcid);
 
+	//应聘者根据公司id查找已开放职位列表
+	@Select("select * from position where pcid = #{pcid} and pisopen='1'")
+	public List<Position> findByPcidAndPisopen(Integer pcid);
+
 	//根据名称模糊查询职位信息(职位必须是开放的)
 	@Select("select * from position where pname like #{name} and pisopen='1'")
 	public List<Position> findByName(String name);

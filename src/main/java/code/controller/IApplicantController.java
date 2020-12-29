@@ -51,13 +51,13 @@ public class IApplicantController {
 	//主页面ajax信息传递
 	@ResponseBody
 	@RequestMapping(value ="/applicantData" ,produces = "text/json; charset=utf-8")
-	public String applicantData(@RequestParam(value = "aid")Integer aid, Model model){
+	public String applicantData(@RequestParam(value = "aid")Integer aid){
 		//根据用户id查询用户身份
 		List list = new ArrayList();
 //		int resumeHasDelivery=0;//投递简历的数量
 //		int resumeWaitInterview=0;//等待面试简历的数量
 //		int resumeHasAdopt=0;//已经通过简历的数量
-//		int resumeHasRefuse=0;//已经通过简历的数量
+//		int resumeHasRefuse=0;//已经拒绝简历的数量
 		Applicant applicant =applicantService.findById(aid);
 		list.add(applicant);
 		int resumeHasAdopt = applyforlocationService.ResumeHasAdopt(aid).size();
@@ -82,16 +82,34 @@ public class IApplicantController {
 	//搜索（搜索职位名称）
 	@ResponseBody
 	@RequestMapping(value ="/searchPosition",produces = "text/json; charset=utf-8")
-	public String searchPosition(String content,Model model){
+	public String searchPosition(String content,String type,Model model){
+		System.out.println(type);
 //		System.out.println(applicant.toString());
-		List<Position> positionList =positionService.findByName("%"+content+"%");
-		List<Company> companyList = new ArrayList<>();
 		List lists = new ArrayList();
-		lists.add(positionList);
-		for(int i = 0; i < positionList.size(); i++){
-			Company company =(companyService.findByCid(positionList.get(i).getPcid()));
-			companyList.add(company);
+		List<Position> positionList = new ArrayList<>();
+		List<Company> companyList = new ArrayList<>();
+		if (type.equals("职位")){
+			positionList =positionService.findByName("%"+content+"%");
+			for(int i = 0; i < positionList.size(); i++){
+				Company company =(companyService.findByCid(positionList.get(i).getPcid()));
+				companyList.add(company);
+			}
 		}
+		else{
+			List<Company> companies = companyService.findByName("%"+content+"%");
+			System.out.println(content);
+			for (int i = 0; i < companies.size(); i++){
+				System.out.println(companies);
+			}
+			for (int i = 0; i < companies.size(); i++){
+				List<Position> positions = positionService.findByPcidAndPisopen(companies.get(i).getCid());
+				for (int j = 0; j <positions.size(); j++){
+					positionList.add(positions.get(j));
+					companyList.add(companies.get(i));
+				}
+			}
+		}
+		lists.add(positionList);
 		lists.add(companyList);
 		String endList =  new Gson().toJson(lists);
 		return endList;
