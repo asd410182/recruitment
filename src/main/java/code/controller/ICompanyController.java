@@ -79,11 +79,15 @@ public class ICompanyController {
 	}
 
 	//主页面ajax信息传递
+	//更新用户身份
 	@ResponseBody
-	@RequestMapping(value ="/updateJobStatus" ,produces = "text/json; charset=utf-8")
+	@RequestMapping(value ="/updateJobStatus")
 	public String updateJobStatus(@RequestParam(value = "pid")Integer pid,@RequestParam(value = "pisopen")String pisopen, Model model){
 		//根据用户id查询用户身份
+		System.out.println(positionService.findByPid(pid).getPisopen());
+		System.out.println(pisopen);
 		positionService.updatePisopen(pid,pisopen);
+		System.out.println(positionService.findByPid(pid).getPisopen());
 		return positionService.findByPid(pid).getPisopen();
 	}
 

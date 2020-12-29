@@ -130,46 +130,46 @@ window.onload = function(){
 function select(o){
 
     let preSelect;
+
     let bro = o.previousElementSibling;
+    let radios = document.querySelectorAll(`input[name=${bro.name}]`);
+    for (const radio of radios) {
+        if(radio.checked){
+            preSelect = radio.id;
+        }
+    }
+
     o.setAttribute("for", bro.id);
-    let id = o.innerText;
-    let preFor = id;
+    let flag = o.innerText;
+    let currentFor = o.getAttribute("for");
     o.removeAttribute("for");
-    const pisopen = id == "开放" ? 1 : 0;
-    // console.log(pisopen);
+    const pisopen = flag == "开放" ? 1 : 0;
     const pid = o.getAttribute("pid");
 
     //这里要拿到选中的单选框的id
-    let radios = document.querySelectorAll(`input[name=${bro.name}]`);
 
-    for (const radio of radios) {
-        if(radio.checked){
-            // console.log(radio);
-            preSelect = radio.id;
-            console.log("preSelect" + preSelect);
-        }
-    }
-    if(id == preSelect){
+    if(currentFor == preSelect){
         return;
     }else {
         if(confirm("确定更改该职位的发布状态吗？")){
             $.ajax({
                 type: "post",
                 url: "/company/updateJobStatus",
+                async: false,
                 data: {
                     "pisopen": pisopen,
                     "pid": pid
                 },
                 success: function (res, code){
-                    console.log(code);
+                    o.setAttribute("for", currentFor);
                     for (const val of radios) {
-                        if(val.id != id){
+                        const cflag = val.value;
+                        if(cflag != res){
                             val.parentElement.style.borderColor = "#9fa3b0";
                             continue;
                         }
                         val.parentElement.style.borderColor = "#53cac3";
                     }
-                    o.setAttribute("for", preFor);
                 },
                 error: function (){
                     alert("服务器出错了，请待会再试！");
@@ -180,3 +180,4 @@ function select(o){
         }
     }
 }
+

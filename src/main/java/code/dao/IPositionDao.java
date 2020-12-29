@@ -14,7 +14,7 @@ public interface IPositionDao {
 	public void savePosition(Position position);
 
 	//修改职位状态
-	@Update("update position set pisopen = #{arg0} where pid = #{arg1}")
+	@Update("update position set pisopen = #{arg1} where pid = #{arg0}")
 	public void updatePisopen(Integer pid,String pisopen);
 
 //	@Update("update position set pisopen = #{pisopen},pneed = #{pneed},pcontent = #{pcontent},psalary = #{psalary},pisopen = #{pisopen},plocation = #{plocation} where")
