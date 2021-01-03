@@ -1,6 +1,7 @@
 package code.dao;
 
 import code.domain.Position;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -9,13 +10,26 @@ import java.util.List;
 
 public interface IPositionDao {
 
-	//保存职位
+	//添加职位
 	@Insert("insert into position (pname,pneed,pcontent,psalary,pisopen,plocation,pcid,pexperience,pacademic,preleasetime)values(#{pname},#{pneed},#{pcontent},#{psalary},#{pisopen},#{plocation},#{pcid},#{pexperience},#{pacademic},#{preleasetime})")
-	public void savePosition(Position position);
+	public Integer savePosition(Position position);
+
+	//删除职位
+	@Delete("delete from position where pid =#{pid}")
+	public Integer deletePosition(Integer pid);
+
+	//修改职位
+	@Update("update position set pname = #{pname},pneed = #{pneed},pcontent = #{pcontent},psalary = #{psalary},pisopen = #{pisopen}, plocation = #{plocation},pexperience = #{pexperience},pacademic = #{pacademic}" +
+			"where pid = #{pid}")
+	public Integer updatePosition(Position position);
+
+	//查询账单类型
+	@Select("select pisopen from position GROUP BY pisopen")
+	public List<String> findPisopen();
 
 	//修改职位状态
 	@Update("update position set pisopen = #{arg1} where pid = #{arg0}")
-	public void updatePisopen(Integer pid,String pisopen);
+	public Integer updatePisopen(Integer pid,String pisopen);
 
 //	@Update("update position set pisopen = #{pisopen},pneed = #{pneed},pcontent = #{pcontent},psalary = #{psalary},pisopen = #{pisopen},plocation = #{plocation} where")
 	//展示所有职位

@@ -14,11 +14,24 @@ public class PositionServiceImpl implements IPositionService {
 	@Autowired
 	private IPositionDao positionDao;
 
-	//保存职位
-	public void savePosition(Position position){
-		positionDao.savePosition(position);
+	//添加职位
+	public Integer savePosition(Position position){
+		return positionDao.savePosition(position);
 	}
 
+	//删除职位
+	public Integer deletePosition(Integer pid){
+		return positionDao.deletePosition(pid);
+	}
+
+	//修改职位
+	public Integer updatePosition(Position position){
+		return positionDao.updatePosition(position);
+	}
+
+	public List<String> findPisopen(){
+		return positionDao.findPisopen();
+	}
 //	//修改职位信息
 //	public void updatePosition(Position position){
 //		positionDao.updatePosition(position);
@@ -48,8 +61,8 @@ public class PositionServiceImpl implements IPositionService {
 		return positionDao.findByName(name);
 	}
 
-	public void updatePisopen(Integer pid,String pisopen){
-		positionDao.updatePisopen(pid,pisopen);
+	public Integer updatePisopen(Integer pid,String pisopen){
+		return positionDao.updatePisopen(pid,pisopen);
 	}
 	//展示所有开放的职位
 	public List<Position> findAllOpenPosition(){

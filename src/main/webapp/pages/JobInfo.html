@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布职位</title>
+    <script src="../layui/layui.js"></script>
+    <script src="../js/jquery-3.5.1.min.js"></script>
+    <script src="../js/city.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<body>
+<form class="layui-form" action="" style="transform: translate(-50%, -50%); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+    <div class="layui-form-item">
+        <label class="layui-form-label">职位名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="pname" required  lay-verify="required" lay-reqText="职位名称不能为空" placeholder="职位名称" autocomplete="off" class="layui-input" disabled="disabled">
+        </div>
+    </div>
+    <div class="layui-form-item" style="display: inline-block">
+        <label class="layui-form-label">工作城市</label>
+        <div class="layui-input-block" style="display: inline-block; margin-left: 0px;">
+            <select name="plocation" lay-verify="required" lay-reqText="请选择省份" id="province" lay-filter="province" disabled="disabled">
+                <option value="">请选择省份</option>
+            </select>
+        </div>
+        <div class="layui-input-block" style="display: inline-block; margin-left: 10px;">
+            <select name="plocation" lay-verify="required" lay-reqText="请选择城市" id="city" disabled="disabled">
+                <option value="">请选择城市</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">详细地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="plocation" placeholder="职位名称" autocomplete="off" class="layui-input" disabled="disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">职位状态</label>
+        <div class="layui-input-block">
+            <input type="radio" name="pisopen" value="1" title="开放" checked disabled>
+            <input type="radio" name="pisopen" value="0" title="关闭" disabled>
+        </div>
+    </div>
+    <div class="layui-form-item" style="display: inline-block">
+        <label class="layui-form-label" style="text-align: center">工作经验学历要求</label>
+        <div class="layui-input-block" style="display: inline-block; margin-left: 0px;">
+            <select name="pexperience" lay-verify="required" disabled="disabled">
+                <option value="经验不限">经验不限</option>
+                <option value="在校生">在校生</option>
+                <option value="应届生">应届生</option>
+                <option value="1年以内">1年以内</option>
+                <option value="1-3年">1-3年</option>
+            </select>
+        </div>
+        <div class="layui-input-block" style="display: inline-block; margin-left: 10px;">
+            <select name="pacademic" lay-verify="required" disabled="disabled">
+                <option value="学历不限">学历不限</option>
+                <option value="大专">大专</option>
+                <option value="本科">本科</option>
+                <option value="研究生">研究生</option>
+                <option value="博士生">博士生</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">薪资范围</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="psalary" placeholder="￥" autocomplete="off" class="layui-input" required lay-verify="required" lay-reqText="请输入薪资要求" disabled="disabled">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="psalary" placeholder="￥" autocomplete="off" class="layui-input" required lay-verify="required" lay-reqText="请输入薪资要求" disabled="disabled">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">职位描述</label>
+        <div class="layui-input-block">
+            <textarea name="pcontent" placeholder="请输入内容" class="layui-textarea" required lay-verify="required" lay-reqText="请输入职位描述" disabled="disabled"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">任职要求</label>
+        <div class="layui-input-block">
+            <textarea name="pneed" placeholder="请输入内容" class="layui-textarea" required lay-verify="required" lay-reqText="请输入任职要求" disabled="disabled"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" onclick="Edit(this)" id="edit">编辑</button>
+            <button class="layui-btn" lay-submit lay-filter="doSubmit" style="display: none" id="commit">发布</button>
+            <button type="reset" class="layui-btn layui-btn-primary" style="display: none" id="reset">重置</button>
+            <button type="button" class="layui-btn" style="display: none" id="cancel" onclick="Cancel(this)">取消</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    let pid;
+    window.onload = function (){
+        pid = window.location.search.split("=")[1];
+        console.log(pid);
+        $.ajax({
+            url: "/company/",
+            type: "post",
+            data: {
+                "pid": pid
+            },
+            success: function (res){
+                console.log(res);
+            },
+            error: function (res){
+                console.log(res);
+            }
+        })
+    };
+
+    (function setDefault(){
+        var prov = document.querySelector("#province");
+        let len = provice.length;
+        for(let i=0; i<len; i++){
+            var provOpt = document.createElement("option");
+            provOpt.innerText = provice[i]["name"];
+            provOpt.setAttribute("index", i);
+            provOpt.value = provice[i]["name"];
+            prov.appendChild(provOpt);
+        }
+    })();
+
+    function Edit(o){
+        o.style.display = "none";
+        document.querySelector("#commit").style.display = "";
+        document.querySelector("#reset").style.display = "";
+        document.querySelector("#cancel").style.display = "";
+
+        let inputs = document.querySelectorAll("input");
+        for (const input of inputs) {
+            input.disabled = false;
+        }
+
+        let selects = document.querySelectorAll("select");
+        for (const select of selects) {
+            select.disabled = false;
+        }
+
+        let textareas = document.querySelectorAll("textarea");
+        for (const textarea of textareas) {
+            textarea.disabled = false;
+        }
+
+        layui.use(['form'], function (){
+            var form = layui.form;
+            form.render("select");
+            form.render("radio");
+        })
+    }
+
+    function Cancel(o){
+        o.style.display = "none";
+        document.querySelector("#commit").style.display = "none";
+        document.querySelector("#reset").style.display = "none";
+        document.querySelector("#edit").style.display = "inline-block";
+
+        let inputs = document.querySelectorAll("input");
+        for (const input of inputs) {
+            input.disabled = true;
+        }
+
+        let selects = document.querySelectorAll("select");
+        for (const select of selects) {
+            select.disabled = true;
+        }
+
+        let textareas = document.querySelectorAll("textarea");
+        for (const textarea of textareas) {
+            textarea.disabled = true;
+        }
+
+        layui.use(['form'], function (){
+            var form = layui.form;
+            form.render("select");
+            form.render("radio");
+        })
+    }
+
+    //Demo
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form;
+        var $ = layui.jquery;
+        var layer = layui.layer;
+
+        form.on("select(province)", function (data){
+
+            var city = document.querySelector("#city");
+            let province = document.querySelector("#province");
+            let i = province.selectedIndex;
+            let val = province.options[i].getAttribute("index");
+            city.length = 1;
+            if(val != "" && val != null){
+                var cityLen = provice[val]["city"].length;
+                for(let i=0; i<cityLen; i++){
+                    var cityOpt = document.createElement("option");
+                    cityOpt.innerText = provice[val]["city"][i].name;
+                    cityOpt.setAttribute("index", i);
+                    cityOpt.value = provice[val]['city'][i].name;
+                    city.appendChild(cityOpt);
+                }
+            }
+            form.render('select');
+        })
+
+        //监听提交
+        form.on('submit(doSubmit)', function(data){
+            console.log(data);
+            data.field = decodeURIComponent($(data.form).serialize());
+            layer.msg(JSON.stringify(data.field));
+            data.field += `&pcid=${cid}`;
+            console.log(data);
+
+            $.post("/company/addPosition", data.field, function (res){
+                console.log(res);
+                if(res.success){
+                    document.querySelector("#iframe").setAttribute("src", `./HomePage.html?cid=${cid}`);
+                }else {
+                    layer.msg("发布失败，请重试");
+                }
+            })
+            //禁止页面的跳转
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

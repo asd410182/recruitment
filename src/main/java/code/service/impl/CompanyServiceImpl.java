@@ -15,8 +15,8 @@ public class CompanyServiceImpl implements ICompanyService {
 	private ICompanyDao companyDao;
 
 	//更新公司信息
-	public void updateCompany(Company company){
-		companyDao.updateCompany(company);
+	public Integer updateCompany(Company company){
+		return companyDao.updateCompany(company);
 	}
 
 	//根据id查询公司信息

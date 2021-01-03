@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>简历管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        body > div{
+            display: flex;
+            flex-direction: row;
+            width: 100vw;
+            height: 100%;
+        }
+
+        iframe{
+            flex: auto;
+        }
+    </style>
+</head>
+<body>
+<ul class="layui-nav">
+    <li class="layui-nav-item">
+        <a href="javascript:void(0);" id="news">消息</a>
+    </li>
+    <li class="layui-nav-item" style="float: right;">
+        <a href="javascript:void(0)" id="exit">退出</a>
+    </li>
+</ul>
+<div>
+    <ul class="layui-nav layui-nav-tree" lay-filter="test">
+        <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+        <li class="layui-nav-item"><a href="javascript:void(0);" id="JobInfo" onclick="switchPage(this)">职位信息</a></li>
+        <li class="layui-nav-item"><a href="javascript:void(0)" id="UnDeal" onclick="switchPage(this)">未处理简历</a></li>
+        <li class="layui-nav-item"><a href="javascript:void(0)" id="Interview" onclick="switchPage(this)">已通知面试</a></li>
+    </ul>
+    <iframe id="iframe" frameborder="0" width="100%" height="100%" src="JobInfo.html?pid=21"></iframe>
+</div>
+
+<script>
+    let pid;
+
+    window.onload = function (){
+        pid = window.location.search.split("=")[1];
+
+        pid = 32;
+        document.querySelector("#iframe").setAttribute("src", `./JobInfo.html?pid=${pid}`);
+    }
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['element', 'jquery'], function(){
+        var element = layui.element;
+        var $ = layui.jquery;
+
+    });
+
+    function switchPage(o){
+        document.querySelector("#iframe").setAttribute("src", `./${o.id}.html?cid=${pid}`);
+    }
+</script>
+</body>
+</html>

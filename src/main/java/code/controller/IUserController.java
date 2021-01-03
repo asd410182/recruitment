@@ -32,10 +32,7 @@ public class IUserController {
 	@RequestMapping("/save")
 	public String save(User user) throws IOException {
 		Integer uid = userService.login(user.getPhone(),user.getPwd());
-		System.out.println(user);
-		System.out.println(uid);
 		Integer id = userService.findByAccount(user.getPhone());
-		System.out.println(id);
 		if(id == null){
 			userService.save(user);
 			Integer userid = userService.findByAccount(user.getPhone());
@@ -55,7 +52,6 @@ public class IUserController {
 	public String jumpAfterRegister(@RequestParam(value = "uid")Integer uid, RedirectAttributes attr){
 		//根据用户id查询用户身份
 		String role = userService.findRoleById(uid);
-		System.out.println(role);
 		if (role.equals("applicant")){
 			String aid = String.valueOf(uid);
 			attr.addAttribute("aid",aid);
@@ -63,8 +59,7 @@ public class IUserController {
 		}
 		else {
 			String cid = String.valueOf(uid);
-			attr.addAttribute("cid",cid);
-			return "redirect:/company/jumpToPerfectCompanyData";
+			return "redirect:/pages/PerfectCompanyInfo.html?cid="+cid;
 		}
 	}
 
@@ -92,7 +87,6 @@ public class IUserController {
 			Integer id = Integer.valueOf(aid);
 			model.addAttribute("aid",aid);
 			String name = applicantService.findById(id).getAname();
-			System.out.println(name);
 			if(name == null) {
 				attr.addAttribute("aid",aid);
 				return "redirect:/applicant/jumpToPerfectApplicant";
@@ -106,14 +100,11 @@ public class IUserController {
 			String cid = String.valueOf(uid);
 			Integer id = Integer.valueOf(cid);
 			String name = companyService.findByCid(id).getCname();
-			System.out.println(name);
 			if(name == null) {
-				attr.addAttribute("cid",cid);
-				return "redirect:/company/jumpToPerfectCompanyData";
+				return "redirect:/PerfectCompanyInfo.html?cid="+cid;
 			}
 			else{
-				model.addAttribute("cid", cid);
-				return "CompanyHome";
+				return "redirect:/pages/index.html?cid="+cid;
 			}
 		}
 	}

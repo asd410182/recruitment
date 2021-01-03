@@ -10,7 +10,7 @@ public interface ICompanyDao{
 
 	//更新公司信息
 	@Update("update company set cname=#{cname}, cintroduction=#{cintroduction},caddress=#{caddress},cphone=#{cphone},cemail=#{cemail} where cid = #{cid}")
-	public void updateCompany(Company company);
+	public Integer updateCompany(Company company);
 
 	//根据id查询公司信息
 	@Select("select * from company where cid =#{cid}")

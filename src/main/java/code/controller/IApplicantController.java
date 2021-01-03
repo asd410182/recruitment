@@ -1,6 +1,5 @@
 package code.controller;
 
-import code.dao.IApplyforlocationDao;
 import code.domain.Applicant;
 
 
@@ -123,49 +122,54 @@ public class IApplicantController {
 	public String jumpToPosition(String aid,String pid,Model model){
 		model.addAttribute("aid",aid);
 		model.addAttribute("pid",pid);
-		Integer id= Integer.valueOf(pid);
-		Position position = positionService.findByPid(id);
-		Company company = companyService.findByCid(position.getPcid());
-		model.addAttribute("position",position);
-		model.addAttribute("company",company);
 		return "ResumeDelivery";
+	}
+
+	//跳转到职位信息查看页面
+	@ResponseBody
+	@RequestMapping("/submitPosition")
+	public String submitPosition(String pid){
+		Integer id =Integer.valueOf(pid);
+		Position position =positionService.findByPid(id);
+		String data = new Gson().toJson(position);
+		return data;
 	}
 
 
 	//文件上传
+	//文件上传
 	@ResponseBody
 	@RequestMapping("/fileUpload")
-	public String fileUpload(HttpServletRequest request,Applyforlocation applyforlocation,MultipartFile upload, RedirectAttributes attr)throws Exception {
-		Applyforlocation applyforlocation1 = applyforlocationService.findByPAid(applyforlocation.getApid(),applyforlocation.getAaid());
+	public String fileUpload(HttpServletRequest request,Applyforlocation applyforlocation,
+						   @RequestParam( value="files",required=false)MultipartFile upload, RedirectAttributes attr)throws Exception {
+		Applyforlocation applyforlocation1 = applyforlocationService.findByPAid(applyforlocation.getApid(), applyforlocation.getAaid());
 		System.out.println(applyforlocation1);
-		if (applyforlocation1==null){
-			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-			Date nowDate= new Date();
-			String date= sdf.format(nowDate);
+		if (applyforlocation1 == null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+			Date nowDate = new Date();
+			String date = sdf.format(nowDate);
 			applyforlocation.setAsubmitime(date);
 			System.out.println(applyforlocation.toString());
 			//使用flieupload组件完成文件上传
 			//上传的位置
 			String path = request.getSession().getServletContext().getRealPath("/uploads/");
 			System.out.println(path);
-			File file =new File(path);
-			if(!file.exists()){
+			File file = new File(path);
+			if (!file.exists()) {
 				file.mkdirs();
 			}
 			//说明上传文件项
 			//获取上传文件的名称
 			String filename = upload.getOriginalFilename();
 			//把文件的名称设置为唯一值，uuid
-			String uuid = UUID.randomUUID().toString().replace("-","");
-			filename = uuid+"_"+filename;
-			upload.transferTo(new File(path,filename));
+			String uuid = UUID.randomUUID().toString().replace("-", "");
+			filename = uuid + "_" + filename;
+			upload.transferTo(new File(path, filename));
 			applyforlocation.setAfilepath(filename);
 			applyforlocationService.saveRecording(applyforlocation);
 			return "success";
 		}
-		else{
-			return "false";
-		}
+		return "false";
 	}
 
 	//进行应聘者信息管理
@@ -190,6 +194,7 @@ public class IApplicantController {
 			positionList.add(positionService.findByPid(applyforlocationList.get(i).getApid()));
 		}
 		//假设已经从后端获取到list数据，直接把list传到toJson（）方法中就行。
+		lists.add(applyforlocationList);
 		lists.add(positionList);
 		String endList = new Gson().toJson(lists);
 		return endList;
@@ -205,8 +210,8 @@ public class IApplicantController {
 	}
 
 	//跳转回公司信息管理页面
-	@RequestMapping(value ="/jumpBackApplicantDat")
-	public String jumpBackApplicantDat(ServletRequest request, Model model){
+	@RequestMapping(value ="/jumpBackApplicantData")
+	public String jumpBackApplicantData(ServletRequest request, Model model){
 		String aid =request.getParameter("aid");
 		model.addAttribute("aid",aid);
 		return "Personalinfo";

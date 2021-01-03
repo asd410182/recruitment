@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/city.js"></script>
+    <script src="../js/jquery-3.5.1.min.js"></script>
+    <script src="../layui/layui.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<body>
+<h1 align="center" style="margin-top: 40px;margin-bottom: 38px;">职位发布列表</h1>
+<div style="width: 80%; margin-left: 100px">
+    <form class="layui-form" action="">
+        <div class="layui-form-item" style="display: inline-block">
+            <select name="pisopen" lay-verify="" required  lay-verify="required" lay-reqText="请选择职位类型" placeholder="请选择职位状态">
+                <option value="1">开放</option>
+                <option value="0">关闭</option>
+            </select>
+        </div>
+        <!--<div class="layui-form-item" style="display: inline-block">-->
+            <!--<div class="layui-input-block" style="margin-left: 24px;">-->
+                <!--<input type="text" name="value" required  lay-verify="required" lay-reqText="请输入职位名称" placeholder="输入查询" autocomplete="off" class="layui-input">-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="layui-form-item" style="display: inline-block; margin-left: 280px">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="doSearch">搜索</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div style="width: 80%; margin-left: 100px">
+    <table id="JobList" lay-filter="JobTable"></table>
+    <!-- 头部工具栏 -->
+    <script type="text/html" id="JobToolbar">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchDelete"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
+        </div>
+    </script>
+    <!-- 行工具栏 -->
+    <script type="text/html" id="JobRowBar">
+        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</button>
+    </script>
+</div>
+<script>
+
+    let cid = window.location.search.split("=")[1];
+    console.log(cid);
+    // cid = 32;
+
+    layui.use(['table', 'form', 'jquery', 'layer'], function() {
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var layer = layui.layer;
+
+        function setA(data){
+            // console.log(data);
+            // console.log(data.pid);
+            return `<a href="./JobIndex.html?pid=${data.pid}" target="blank">查看</a>`;
+        }
+
+        //第一个实例
+        var tableIns = table.render({
+            elem: '#JobList',
+            height: 600,
+            toolbar: "#JobToolbar",
+            url: `/company/showPosition?cid=${cid}`, //数据接口
+            page: true, //开启分页
+            cols: [[ //表头
+                {type: "checkbox", fixed: "left", width: 80},
+                {field: 'pname', title: '职位名称'},
+                {field: 'psalary', title: '薪资范围'},
+                {field: 'pisopen', title: '是否开放'},
+                {field: 'pexperience', title: '经验要求'},
+                {field: 'pacademic', title: '学历要求'},
+                {field: 'preleasetime', title: '发布时间', sort: true},
+                {field: "pwaitcount", title: "未处理简历"},
+                {field: "plocation", title: "工作地址", hide: true},
+                {field: "pcontent", title: "职位描述", hide: true},
+                {field: "pneed", title: "职位需求", hide: true},
+                {field: "pid", title: "详情", templet: setA},
+                {title: "操作", toolbar: "#JobRowBar"}
+            ]]
+        });
+
+        //监听搜索按钮提交事件
+        form.on("submit(doSearch)",function (data) {
+            tableIns.reload({
+                where:data.field,//查询条件
+                page:{
+                    curr:1
+                }
+            });
+            //禁止页面刷新
+            return false;
+        });
+
+        table.on("toolbar(JobTable)", function (obj){
+            console.log(obj);
+            batchDelete();
+        })
+
+        // //监听表格行工具栏事件
+        table.on("tool(JobTable)",function (obj) {
+            console.log(obj);
+            deleteBy(obj.data);
+        });
+
+        function batchDelete(){
+            //参数为id值
+            var checkStatus = table.checkStatus("JobList");
+            if(checkStatus.data.length > 0){
+                var List = [];
+                //循环遍历获取选中行
+                for(let i=0; i<checkStatus.data.length; i++){
+                    List.push(checkStatus.data[i].pid);
+                }
+                var PidList = List.join(",");
+                layer.confirm("确定要删除选中的" + checkStatus.data.length + "数据吗？", {icon: 3, title: "提示"}, function (index){
+                    $.post("/company/batchDelete", {"PidList": PidList}, function (res){
+                        if(res.success){
+                            layer.alert(res.message, {icon:1});
+                            tableIns.reload();
+                        }else{
+                            layer.alert(res.message, {icon: 2});
+                        }
+                    }, "json");
+                    layer.close(index);
+                })
+            }else {
+                layer.msg("请选择要删除的数据；");
+            }
+        }
+
+        function deleteBy(data){
+            layer.confirm("确定要删除该职位吗？", {icon: 3, title: "提示"}, function (index){
+                $.post("/company/deletePosition", {pid: data.pid}, function (res){
+                    console.log(res);
+                    if(res.success){
+                        layer.alert(res.message, {icon:1});
+                        tableIns.reload();
+                    }else{
+                        layer.alert(res.message, {icon: 2});
+                    }
+                }, "json");
+                layer.close(index);
+            });
+        }
+
+    })
+</script>
+</body>
+</html>

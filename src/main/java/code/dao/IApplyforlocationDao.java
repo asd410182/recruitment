@@ -3,6 +3,7 @@ package code.dao;
 import code.domain.Applyforlocation;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 
 import java.util.List;
@@ -10,8 +11,16 @@ import java.util.List;
 public interface IApplyforlocationDao {
 
 	@Insert("insert into apply_for_location (aaid,apid,asubmitime,astatus,afilepath)values(#{aaid},#{apid},#{asubmitime},#{astatus},#{afilepath})")
-	public void saveRecording(Applyforlocation applyforlocation);
+	public Integer saveRecording(Applyforlocation applyforlocation);
 
+
+	//修改职位状态
+	@Update("update  apply_for_location set astatus = '已通知' where apid = #{apid} and aaid = #{aaid}")
+	public Integer acceptResume(Applyforlocation applyforlocation);
+
+	//修改职位状态
+	@Update("update  apply_for_location set astatus = '拒绝' where apid = #{apid} and aaid = #{aaid}")
+	public Integer refuseResume(Applyforlocation applyforlocation);
 	//查找一个人对应的所有提交简历
 	@Select("select * from apply_for_location where aaid = #{aaid}")
 	public List<Applyforlocation> findByAaid(Integer aaid);

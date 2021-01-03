@@ -1,13 +1,10 @@
 package code.controller;
 
-import code.domain.Applicant;
-import code.domain.Applyforlocation;
-import code.domain.Company;
-import code.domain.Position;
-import code.service.IApplicantService;
-import code.service.IApplyforlocationService;
-import code.service.ICompanyService;
-import code.service.IPositionService;
+import code.domain.*;
+import code.service.*;
+import com.alibaba.druid.support.json.JSONUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +13,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -48,152 +40,225 @@ public class ICompanyController {
 	@Autowired
 	private IApplyforlocationService applyforlocationService;
 
-	//主页面ajax信息传递
-	@ResponseBody
-	@RequestMapping(value ="/showTheData" ,produces = "text/json; charset=utf-8")
-	public String showTheData(@RequestParam(value = "cid")Integer cid){
-		//根据用户id查询用户身份
-		Company company = companyService.findByCid(cid);
-		List list = new ArrayList();
-		List<Position> positionList = positionService.findByPcid(cid);
-		int PositionCount = positionList.size();
-		int ResumeCount=0;
-		int NoSureResumeCount=0;
-		int PassResumeCount=0;
-		List<Integer> NoSurePositionCountList = new ArrayList();
-		for(int i = 0; i < positionList.size(); i++){
-			ResumeCount += applyforlocationService.findByApid(positionList.get(i).getPid()).size();
-			NoSureResumeCount += applyforlocationService.PositionNoHavePass(positionList.get(i).getPid()).size();
-			PassResumeCount += applyforlocationService.PositionHavePass(positionList.get(i).getPid()).size();
-			NoSurePositionCountList.add(applyforlocationService.PositionNoHavePass(positionList.get(i).getPid()).size());
-		}
-		list.add(company);
-		list.add(PositionCount);
-		list.add(ResumeCount);
-		list.add(NoSureResumeCount);
-		list.add(PassResumeCount);
-		list.add(positionList);
-		list.add(NoSurePositionCountList);
-		String myList = new Gson().toJson(list);
-		return myList;
-	}
+	@Autowired
+	private IPositionVoService positionVoService;
 
-	//主页面ajax信息传递
-	//更新用户身份
-	@ResponseBody
-	@RequestMapping(value ="/updateJobStatus")
-	public String updateJobStatus(@RequestParam(value = "pid")Integer pid,@RequestParam(value = "pisopen")String pisopen, Model model){
-		//根据用户id查询用户身份
-		System.out.println(positionService.findByPid(pid).getPisopen());
-		System.out.println(pisopen);
-		positionService.updatePisopen(pid,pisopen);
-		System.out.println(positionService.findByPid(pid).getPisopen());
-		return positionService.findByPid(pid).getPisopen();
-	}
+	@Autowired
+	private IApplyforlocationVoService applyforlocationVoService;
 
-	//跳转到发布职位页面
-	@RequestMapping("/jumpToPostJob")
-	public String jumpToPostJob(Integer cid,Model model){
-		model.addAttribute("cid",cid);
-		return "PostJob";
-	}
-
-	//	发布职位
-	@RequestMapping("/addPosition")
-	public String addPosition(Position position, RedirectAttributes attr){
-		System.out.println("保存职位");
-
-		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-		Date nowDate= new Date();
-		String date= sdf.format(nowDate);
-		position.setPreleasetime(date);
-		System.out.println(position.toString());
-
-		positionService.savePosition(position);
-		attr.addAttribute("cid",position.getPcid());
-		return "redirect:/company/jumpToCompany";
-	}
-
-	//跳回主页面
-	@RequestMapping(value ="/jumpToCompany")
-	public String jumpToCompany(ServletRequest request, Model model){
-		String cid =request.getParameter("cid");
-		model.addAttribute("cid",cid);
-		return "CompanyHome";
-	}
-
-	//跳转到公司信息管理页面
-	@RequestMapping(value ="/jumpToCompanyData")
-	public String jumpToCompanyData(String cid,Model model){
-		model.addAttribute("cid",cid);
-		return "EditCompanyInfo";
-	}
-
-	//招聘公司信息管理页面ajax信息传递
+	//ajax传招聘公司信息
 	@ResponseBody
 	@RequestMapping(value = "/companyData",produces = "text/json; charset=utf-8")
-	public String companyData(@RequestParam(value = "cid")Integer cid,Model model){
+	public String companyData(@RequestParam(value = "cid")Integer cid){
 		Company company = companyService.findByCid(cid);//得到公司信息
 		String companyData = new Gson().toJson(company);
 		return companyData;
 	}
 
+	//完善招聘公司信息
+	@RequestMapping(value = "/fillCompanyData")
+	public String fillCompanyData(Company company){
+		companyService.updateCompany(company);
+		return "redirect:/pages/index.html?cid="+company.getCid();
+	}
+
 	//更新招聘公司信息
-	@RequestMapping(value = "/updateMyData")
-	public String updateMyData(Company company, RedirectAttributes attr){
+	@ResponseBody
+	@RequestMapping(value = "/updateMyData",produces = "text/json; charset=utf-8")
+	public String updateMyData(Company company){
 		System.out.println(company.toString());
 		System.out.println(company.getCid());
 		companyService.updateCompany(company);
-		attr.addAttribute("cid",company.getCid());
-		return "redirect:/company/jumpBackCompanyData";
-	}
-
-	//跳转回公司信息管理页面
-	@RequestMapping(value ="/jumpBackCompanyData")
-	public String jumpBackCompanyData(ServletRequest request,Model model){
-		String cid =request.getParameter("cid");
-		model.addAttribute("cid",cid);
-		return "EditCompanyInfo";
-	}
-
-
-	//跳转到信息完善界面
-	@RequestMapping(value ="/jumpToPerfectCompanyData")
-	public String jumpToPerfectCompanyData(ServletRequest request,Model model){
-		String cid =request.getParameter("cid");
-		model.addAttribute("cid",cid);
-		return "PerfectCompanyInfo";
-	}
-
-
-
-	//更新招聘公司信息
-	@RequestMapping(value = "/updateData")
-	public String updateData(Company company, RedirectAttributes attr){
-		System.out.println(company);
-		companyService.updateCompany(company);
-		attr.addAttribute("cid",company.getCid());
-		return "redirect:/company/jumpToCompany";
-	}
-
-
-	//跳转到查看职位信息页面
-	@RequestMapping(value = "/jumpToResume")
-	public String jumpToResume(String pid,String cid,Model model){
-		model.addAttribute("pid",pid);
-		model.addAttribute("cid",cid);
-		Integer id =Integer.valueOf(pid);
-		model.addAttribute("position",positionService.findByPid(id));
-		List<Applyforlocation> applyforlocationList =applyforlocationService.findByApid(id);
-		List<Applicant> applicantList = new ArrayList();
-		for(int i = 0; i < applyforlocationList.size(); i++){
-			applicantList.add(applicantService.findById(applyforlocationList.get(i).getAaid()));
+//		attr.addAttribute("cid",company.getCid());
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(companyService.updateCompany(company)>0){
+			map.put("success",true);
+			map.put("message","信息更新成功");
+		}else{
+			map.put("success",false);
+			map.put("message","信息更新失败");
 		}
-		model.addAttribute("position",positionService.findByPid(id));
-		model.addAttribute("applicantList",applicantList);
-		model.addAttribute("applyforlocationList",applyforlocationList);
-		return "Job";
+		return JSONUtils.toJSONString(map);
 	}
+
+
+	/**
+	 *
+	 * @param positionVo
+	 * @return
+	 */
+	//查看职位信息
+	@ResponseBody
+	@RequestMapping(value = "/showPosition")
+	public DataGridViewResultView showPosition(PositionVo positionVo){
+		Map<String, Object> map = new HashMap<String, Object>();
+		PageHelper.startPage(positionVo.getPage(),positionVo.getLimit());
+
+		List<Position> positionList = positionVoService.findPositionList(positionVo);
+		for(int i = 0; i < positionList.size(); i++){
+			int waitcount = applyforlocationService.findByApid(positionList.get(i).getPid()).size();
+			positionList.get(i).setPwaitcount(waitcount);
+
+		}
+		int count =positionList.size();
+		PageInfo<Position> pageInfo = new PageInfo<Position>(positionList);
+		return new DataGridViewResultView(pageInfo.getTotal(),pageInfo.getList());
+	}
+
+	//	发布职位
+	@ResponseBody
+	@RequestMapping(value = "/addPosition",produces = "text/json; charset=utf-8")
+	public String addPosition(Position position){
+		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		Date nowDate= new Date();
+		String date= sdf.format(nowDate);
+		position.setPreleasetime(date);
+		System.out.println(position.toString());
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(positionService.savePosition(position)>0){
+			map.put("success",true);
+			map.put("message","添加职位成功");
+		}else{
+			map.put("success",false);
+			map.put("message","添加职位失败");
+		}
+		return JSONUtils.toJSONString(map);
+	}
+
+
+	/**
+	 *
+	 * @param pid
+	 * @return
+	 */
+	//删除职位信息
+	@ResponseBody
+	@RequestMapping(value = "/deletePosition",produces = "text/json; charset=utf-8")
+	public String deletePosition(@RequestParam(value = "pid")Integer pid){
+		System.out.println(pid);
+		Map<String,Object> map = new HashMap<String,Object>();
+		if (positionService.deletePosition(pid)>0){
+			map.put("success",true);
+			map.put("message","删除成功");
+		}
+		else{
+			map.put("success",false);
+			map.put("message","删除失败");
+		}
+		return JSONUtils.toJSONString(map);
+	}
+
+	/**
+	 *
+	 * @param pids
+	 * @return
+	 */
+	//批量删除
+	@ResponseBody
+	@RequestMapping(value = "/batchDelete",produces = "text/json; charset=utf-8")
+	public String BarchDelete(@RequestParam(value = "PidList")String pids){
+		Map<String,Object> map = new HashMap<String,Object>();
+		int count = 0;
+		//将字符串拆分成数组
+		String[] pidstr = pids.split(",");
+		for (int i = 0; i < pidstr.length; i++) {
+			count = positionService.deletePosition(Integer.valueOf(pidstr[i]));
+			if (count > 0) {
+				map.put("success", true);
+				map.put("message", "删除成功");
+			}
+		}
+		//判断受影响的行数是否为0
+		if (count<=0){
+			map.put("success", false);
+			map.put("message", "删除失败");
+		}
+		return JSONUtils.toJSONString(map);
+	}
+
+
+	//	更新职位
+	@ResponseBody
+	@RequestMapping(value = "/updatePosition" ,produces = "text/json; charset=utf-8")
+	public String updatePosition(Position position){
+		Map<String,Object> map = new HashMap<String,Object>();
+		System.out.println(position.toString());
+		if(positionService.updatePosition(position)>0){
+			map.put("success",true);
+			map.put("message","修改职位成功");
+		}else{
+			map.put("success",false);
+			map.put("message","修改职位失败");
+		}
+		return JSONUtils.toJSONString(map);
+	}
+
+	//ajax传职位信息
+	@ResponseBody
+	@RequestMapping(value = "/positionData",produces = "text/json; charset=utf-8")
+	public String positionData(@RequestParam(value = "pid")Integer pid){
+		Position position = positionService.findByPid(pid);
+		String positionData = new Gson().toJson(position);
+		return positionData;
+	}
+
+
+
+	/**
+	 * 查看简历列表
+	 * @param applyforlocationVo
+	 * @return
+	 */
+	//查看简历列表
+	@ResponseBody
+	@RequestMapping(value = "/showResume")
+	public DataGridViewResultView showResume(ApplyforlocationVo applyforlocationVo){
+		PageHelper.startPage(applyforlocationVo.getPage(),applyforlocationVo.getLimit());
+		List<Applyforlocation> applyforlocationList =applyforlocationVoService.findPositionList(applyforlocationVo);
+		ArrayList<Resume> resumeList = new ArrayList<Resume>();
+		for(int i = 0; i <applyforlocationList.size(); i++){
+			Resume resume = new Resume();
+			resume.setApplyforlocation(applyforlocationList.get(i));
+			Applicant applicant = applicantService.findById(applyforlocationList.get(i).getAaid());
+			resume.setApplicant(applicant);
+			resumeList.add(resume);
+		}
+		PageInfo<Resume> pageInfo = new PageInfo<Resume>(resumeList);
+		return new DataGridViewResultView(pageInfo.getTotal(),pageInfo.getList());
+	}
+
+	//通知面试
+	@ResponseBody
+	@RequestMapping(value = "/acceptResume" ,produces = "text/json; charset=utf-8")
+	public String acceptResume(@RequestParam(value = "apid")Integer apid,@RequestParam(value = "aaid")Integer aaid){
+		Map<String,Object> map = new HashMap<String,Object>();
+		Applyforlocation applyforlocation =applyforlocationService.findByPAid(apid,aaid);
+		if(applyforlocationService.acceptResume(applyforlocation)>0){
+			map.put("success",true);
+			map.put("message","通知面试成功");
+		}else{
+			map.put("success",false);
+			map.put("message","通知面试失败");
+		}
+		return JSONUtils.toJSONString(map);
+	}
+
+	//拒绝
+	@ResponseBody
+	@RequestMapping(value = "/refuseResume" ,produces = "text/json; charset=utf-8")
+	public String refuseResume(@RequestParam(value = "apid")Integer apid,@RequestParam(value = "aaid")Integer aaid){
+		Map<String,Object> map = new HashMap<String,Object>();
+		Applyforlocation applyforlocation =applyforlocationService.findByPAid(apid,aaid);
+		if(applyforlocationService.refuseResume(applyforlocation)>0){
+			map.put("success",true);
+			map.put("message","通知面试成功");
+		}else{
+			map.put("success",false);
+			map.put("message","通知面试失败");
+		}
+		return JSONUtils.toJSONString(map);
+	}
+
 
 
 	//文件下载
@@ -209,5 +274,4 @@ public class ICompanyController {
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.OK);
 	}
-
 }

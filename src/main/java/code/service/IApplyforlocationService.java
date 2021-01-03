@@ -7,7 +7,13 @@ import java.util.List;
 public interface IApplyforlocationService {
 
 	//保存递交简历记录
-	public void saveRecording(Applyforlocation applyforlocation);
+	public Integer saveRecording(Applyforlocation applyforlocation);
+
+	//修改职位状态
+	public Integer acceptResume(Applyforlocation applyforlocation);
+
+	//修改职位状态
+	public Integer refuseResume(Applyforlocation applyforlocation);
 
 	//查找一个人对应的所有提交简历的id
 	public List<Applyforlocation> findByAaid(Integer aaid);

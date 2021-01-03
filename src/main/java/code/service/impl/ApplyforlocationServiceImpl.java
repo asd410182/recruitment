@@ -16,8 +16,18 @@ public class ApplyforlocationServiceImpl implements IApplyforlocationService {
 	@Autowired
 	private IApplyforlocationDao applyforlocationDao;
 	//保存递交简历记录
-	public void saveRecording(Applyforlocation applyforlocation){
-		applyforlocationDao.saveRecording(applyforlocation);
+	public Integer saveRecording(Applyforlocation applyforlocation){
+		return applyforlocationDao.saveRecording(applyforlocation);
+	}
+
+	//修改职位状态
+	public Integer acceptResume(Applyforlocation applyforlocation){
+		return applyforlocationDao.acceptResume(applyforlocation);
+	}
+
+	//修改职位状态
+	public Integer refuseResume(Applyforlocation applyforlocation){
+		return applyforlocationDao.refuseResume(applyforlocation);
 	}
 
 	//查找一个人对应的所有提交简历的id

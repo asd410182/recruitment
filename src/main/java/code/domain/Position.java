@@ -12,6 +12,8 @@ public class Position {
 	private String pexperience;
 	private String pacademic;
 	private String preleasetime;
+	private Integer pallcount;
+	private Integer pwaitcount;
 
 
 	public Integer getPid() {
@@ -103,6 +105,22 @@ public class Position {
 		this.preleasetime = preleasetime;
 	}
 
+	public Integer getPallcount() {
+		return pallcount;
+	}
+
+	public void setPallcount(Integer pallcount) {
+		this.pallcount = pallcount;
+	}
+
+	public Integer getPwaitcount() {
+		return pwaitcount;
+	}
+
+	public void setPwaitcount(Integer pwaitcount) {
+		this.pwaitcount = pwaitcount;
+	}
+
 	@Override
 	public String toString() {
 		return "Position{" +
@@ -117,6 +135,8 @@ public class Position {
 				", pexperience='" + pexperience + '\'' +
 				", pacademic='" + pacademic + '\'' +
 				", preleasetime='" + preleasetime + '\'' +
+				", pallcount=" + pallcount +
+				", pwaitcount=" + pwaitcount +
 				'}';
 	}
 }

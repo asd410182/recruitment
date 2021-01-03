@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>未处理的简历</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+</head>
+<body>
+<div style="width: 80%; margin-left: 100px; margin-top: 40px">
+    <form class="layui-form" action="">
+        <div class="layui-form-item" style="display: inline-block; margin-left: 100px">
+            <div class="layui-input-block" style="margin-left: 24px;">
+                <input type="text" name="value" required  lay-verify="required" lay-reqText="请输入要查询的应聘者的名字" placeholder="输入查询" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: inline-block;">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="doSearch">搜索</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div style="width: 80%;margin-left: 100px">
+    <table id="ResumeList" lay-filter="ResumeTable"></table>
+    <!-- 头部工具栏 -->
+    <script type="text/html" id="ResumeToolbar">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="batchInterview">通知面试</button>
+            <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchDelete">拒绝</button>
+        </div>
+    </script>
+    <!-- 行工具栏 -->
+    <script type="text/html" id="ResumeRowBar">
+        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="interview">通知面试</button>
+        <button class="layui-btn layui-btn-xs" lay-event="delete">拒绝</button>
+    </script>
+</div>
+<script>
+
+    let pid;
+    window.onload = function (){
+        pid = window.location.search.split("=")[1];
+        console.log(pid);
+    };
+
+    layui.use(['table', 'form', 'layer'], function(){
+        var table = layui.table;
+        var form = layui.form;
+        var layer = layui.layer;
+        //第一个实例
+        var tableIns = table.render({
+            elem: '#ResumeList'
+            ,height: 312
+            ,url: '/index.jsp' //数据接口
+            ,toolbar: "#ResumeToolbar"
+            ,page: true //开启分页
+            ,cols: [[ //表头
+                {type: "checkbox", fixed: "left", width: 80},
+                {field: "aid", title: "id", hide: true},
+                {field: 'aname', title: '应聘者'},
+                {field: 'asex', title: '性别'},
+                {field: 'aage', title: '年龄'},
+                {field: 'aeducation', title: '学历'},
+                {field: 'ajobstatus', title: '求职状态'},
+                {field: 'aemail', title: '邮箱'},
+                {field: 'aphone', title: '电话'},
+                {field: 'afile', title: "简历"},
+                {type: toolbar, title: "操作"}
+            ]]
+        });
+
+        //点击搜索
+        form.on("submit(doSearch)", function (data){
+            console.log(data.field);
+            let newData = data.field;
+            newData.apid = pid;
+            tableIns.reload({
+                url: "/index.jsp",
+                where: newData,  //查询条件
+                page: {
+                    curr: 1
+                }
+            })
+            return false;
+        })
+
+        table.on("toolbar(ResumeTable)", function (obj){
+            console.log(obj);
+            batchInter(obj.data, obj.event);
+            // switch (obj.event){
+            //     case "batchInterview":
+            //         console.log("batchInterview");
+            //         batchInter(obj.data)
+            //         break;
+            //     case "batchDelete":
+            //         console.log("batchDelete");
+            //         break;
+            // }
+        })
+
+        // //监听表格行工具栏事件
+        table.on("tool(ResumeTable)",function (obj) {
+            console.log(obj);
+            inter(obj.data, obj.event);
+            // switch(obj.event){
+            //     case "delete":
+            //         console.log("拒绝");
+            //         break;
+            //     case "interview":
+            //         console.log("通知面试");
+            //         break;
+            // }
+        });
+
+        function inter(data, event){
+            let news = "";
+            if(event == "delete") news = "拒绝";
+            else news = "通知面试";
+            layer.confirm(`确定要${news}${data.aname}吗？`, {icon:3,title:"提示"}, function (index){
+                $.post("/company", {"aid": data.aid, "deal": news}, function (res){
+                    if(res.success){
+                        layer.alert(res.message,{icon:1});
+                        //关闭窗口
+                        //刷新数据表格
+                        tableIns.reload();
+                    }else {
+                        layer.alert(res.message,{icon:2});
+                    }
+                }, "json");
+                layer.alert(result.message,{icon:2});
+            })
+        }
+
+        function batchInter(data, event){
+            let news = "";
+            if(event == "batchInterview") news = "通知面试";
+            else news = "拒绝";
+
+            var checkStatus = table.checkStatus("ResumeList");
+            if(checkStatus.data.length > 0){
+                var aidList = [];
+                for(let i=0; i<checkStatus.data.length; i++){
+                    aidList.push(checkStatus.data[i].aid);
+                }
+                var aids = aidList.join(",");
+                layer.confirm(`确定要${news}这${checkStatus.data.length}位应聘者面试吗？`,{icon:3,title:"提示"}, function (index){
+                    $.post("/company/", {"aids": aids, "deal": news}, function (res){
+                        if(res.success){
+                            layer.alert(res.message,{icon:1});
+                            //刷新数据表格
+                            tableIns.reload();
+                        }else{
+                            layer.alert(res.message,{icon:2});
+                        }
+                    }, "json");
+                    layer.close(index);
+                })
+            }else {
+                layer.msg("请选择要处理的应聘者！");
+            }
+        }
+    });
+</script>
+</body>
+</html>

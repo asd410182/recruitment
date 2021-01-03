@@ -142,6 +142,8 @@ h1{
 .top > a > p{
     height: 40px;
     color: white;
+    text-align: center;
+    vertical-align: 40px;
 }
 
 #resume{
@@ -150,6 +152,20 @@ h1{
     position: relative;
     width: 100px;
     text-align: center;
-    top: 70px;
-    right: 170px;
+    top: 90px;
+    right: 180px;
+    visibility: hidden;
+}
+
+.top > button{
+    outline: none;
+    border: none;
+    background: #00d7c6;
+    position: relative;
+    width: 100px;
+    text-align: center;
+    top: 48px;
+    right: -500px;
+    height: 36px;
+    color: white;
 }
