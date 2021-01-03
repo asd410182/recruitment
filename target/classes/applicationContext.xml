@@ -27,6 +27,16 @@
         <property name="user" value="root"></property>
         <property name="password" value="root"></property>
     </bean>
+
+    <bean id="pageInterceptor" class="com.github.pagehelper.PageInterceptor">
+        <property name="properties">
+            <props>
+                <prop key="helperDialect">MySQL</prop>  <!--使用什么数据库-->
+                <prop key="reasonable">true</prop>      <!--使页数不越界-->
+            </props>
+        </property>
+    </bean>
+
     <!--配置SqlSessionFactory工厂-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
@@ -52,4 +62,5 @@
     <aop:config>
         <aop:advisor advice-ref="txAdvice" pointcut="execution(* code.service.impl.*ServiceImpl.*(..))"/>
     </aop:config>
+
 </beans>

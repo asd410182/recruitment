@@ -6,5 +6,7 @@ import code.domain.ApplyforlocationVo;
 import java.util.List;
 
 public interface IApplyforlocationVoService {
-	List<Applyforlocation> findPositionList(ApplyforlocationVo applyforlocationVo);
+	public List<Applyforlocation> findApplicntList(ApplyforlocationVo applyforlocationVo);
+
+	public List<Applyforlocation> findPositionList(ApplyforlocationVo applyforlocationVo);
 }

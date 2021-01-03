@@ -1,15 +1,11 @@
 package code.controller;
 
-import code.domain.Applicant;
+import code.domain.*;
 
 
-import code.domain.Applyforlocation;
-import code.domain.Company;
-import code.domain.Position;
-import code.service.IApplicantService;
-import code.service.IApplyforlocationService;
-import code.service.ICompanyService;
-import code.service.IPositionService;
+import code.service.*;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,6 +41,9 @@ public class IApplicantController {
 
 	@Autowired
 	private IApplyforlocationService applyforlocationService;
+
+	@Autowired
+	private IApplyforlocationVoService applyforlocationVoService;
 
 
 	//主页面ajax信息传递
@@ -136,12 +135,14 @@ public class IApplicantController {
 	}
 
 
-	//文件上传
+
 	//文件上传
 	@ResponseBody
 	@RequestMapping("/fileUpload")
-	public String fileUpload(HttpServletRequest request,Applyforlocation applyforlocation,
-						   @RequestParam( value="files",required=false)MultipartFile upload, RedirectAttributes attr)throws Exception {
+	public String fileUpload(HttpServletRequest request,
+							 Applyforlocation applyforlocation,
+							 @RequestParam( value="files",required=false)MultipartFile upload,
+							 RedirectAttributes attr)throws Exception {
 		Applyforlocation applyforlocation1 = applyforlocationService.findByPAid(applyforlocation.getApid(), applyforlocation.getAaid());
 		System.out.println(applyforlocation1);
 		if (applyforlocation1 == null) {
@@ -246,4 +247,27 @@ public class IApplicantController {
 	}
 
 
+	//显示提交过简历的职位列表
+	/**
+	 * 查看简历列表
+	 * @param applyforlocationVo
+	 * @return
+	 */
+	//查看简历列表
+	@ResponseBody
+	@RequestMapping(value = "/showResume")
+	public DataGridViewResultView showResume(ApplyforlocationVo applyforlocationVo){
+		ArrayList<Resume> resumeList = new ArrayList<Resume>();
+		PageHelper.startPage(applyforlocationVo.getPage(),applyforlocationVo.getLimit());
+		List<Applyforlocation> applyforlocationList =applyforlocationVoService.findPositionList(applyforlocationVo);
+		for(int i = 0; i <applyforlocationList.size(); i++){
+			Resume resume = new Resume();
+			Position position = positionService.findByPid(applyforlocationList.get(i).getApid());
+			resume.setPosition(position);
+			resume.setApplyforlocation(applyforlocationList.get(i));
+			resumeList.add(resume);
+		}
+		PageInfo<Resume> pageInfo = new PageInfo<Resume>(resumeList);
+		return new DataGridViewResultView(pageInfo.getTotal(),pageInfo.getList());
+	}
 }

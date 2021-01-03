@@ -15,6 +15,19 @@ public class Resume {
 	private String astatus;
 	private String afilepath;
 
+	private String pname;
+	private String pneed;
+	private String pcontent;
+	private String psalary;
+	private String pisopen;
+	private String plocation;
+	private Integer pcid;
+	private String pexperience;
+	private String pacademic;
+	private String preleasetime;
+	private Integer pallcount;
+	private Integer pwaitcount;
+
 
 	public void setApplicant(Applicant applicant) {
 		this.aid = applicant.getAid();
@@ -33,6 +46,21 @@ public class Resume {
 		this.afilepath = applyforlocation.getAfilepath();
 	}
 
+
+	public void setPosition(Position position){
+		this.pname =position.getPname();
+		this.pcontent = position.getPcontent();
+		this.psalary = position.getPsalary();
+		this.pisopen =position.getPisopen();
+		this.plocation = position.getPlocation();
+		this.pcid = position.getPcid();
+		this.pexperience = position.getPexperience();
+		this.pacademic =position.getPacademic();
+		this.preleasetime =position.getPreleasetime();
+		this.pallcount = position.getPallcount();
+		this.pwaitcount =position.getPwaitcount();
+	}
+
 	@Override
 	public String toString() {
 		return "Resume{" +
@@ -47,6 +75,21 @@ public class Resume {
 				", asubmitime='" + asubmitime + '\'' +
 				", astatus='" + astatus + '\'' +
 				", afilepath='" + afilepath + '\'' +
+				", pname='" + pname + '\'' +
+				", pneed='" + pneed + '\'' +
+				", pcontent='" + pcontent + '\'' +
+				", psalary='" + psalary + '\'' +
+				", pisopen='" + pisopen + '\'' +
+				", plocation='" + plocation + '\'' +
+				", pcid=" + pcid +
+				", pexperience='" + pexperience + '\'' +
+				", pacademic='" + pacademic + '\'' +
+				", preleasetime='" + preleasetime + '\'' +
+				", pallcount=" + pallcount +
+				", pwaitcount=" + pwaitcount +
+				", preleasetime='" + preleasetime + '\'' +
+				", pallcount=" + pallcount +
+				", pwaitcount=" + pwaitcount +
 				'}';
 	}
 }

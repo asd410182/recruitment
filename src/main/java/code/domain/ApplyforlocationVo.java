@@ -6,6 +6,7 @@ public class ApplyforlocationVo {
 	private Integer page;//当前页码
 	private Integer limit;//每页显示数量
 	private Integer pid;
+	private Integer aid;
 
 	public Integer getPage() {
 		return page;
@@ -31,12 +32,21 @@ public class ApplyforlocationVo {
 		this.pid = pid;
 	}
 
+	public Integer getAid() {
+		return aid;
+	}
+
+	public void setAid(Integer aid) {
+		this.aid = aid;
+	}
+
 	@Override
 	public String toString() {
 		return "ApplyforlocationVo{" +
 				"page=" + page +
 				", limit=" + limit +
 				", pid=" + pid +
+				", aid=" + aid +
 				'}';
 	}
 }

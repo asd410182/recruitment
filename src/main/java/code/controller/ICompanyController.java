@@ -93,12 +93,10 @@ public class ICompanyController {
 	public DataGridViewResultView showPosition(PositionVo positionVo){
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageHelper.startPage(positionVo.getPage(),positionVo.getLimit());
-
 		List<Position> positionList = positionVoService.findPositionList(positionVo);
 		for(int i = 0; i < positionList.size(); i++){
 			int waitcount = applyforlocationService.findByApid(positionList.get(i).getPid()).size();
 			positionList.get(i).setPwaitcount(waitcount);
-
 		}
 		int count =positionList.size();
 		PageInfo<Position> pageInfo = new PageInfo<Position>(positionList);
@@ -113,7 +111,6 @@ public class ICompanyController {
 		Date nowDate= new Date();
 		String date= sdf.format(nowDate);
 		position.setPreleasetime(date);
-		System.out.println(position.toString());
 		Map<String,Object> map = new HashMap<String,Object>();
 		if(positionService.savePosition(position)>0){
 			map.put("success",true);
@@ -202,8 +199,6 @@ public class ICompanyController {
 		return positionData;
 	}
 
-
-
 	/**
 	 * 查看简历列表
 	 * @param applyforlocationVo
@@ -214,7 +209,7 @@ public class ICompanyController {
 	@RequestMapping(value = "/showResume")
 	public DataGridViewResultView showResume(ApplyforlocationVo applyforlocationVo){
 		PageHelper.startPage(applyforlocationVo.getPage(),applyforlocationVo.getLimit());
-		List<Applyforlocation> applyforlocationList =applyforlocationVoService.findPositionList(applyforlocationVo);
+		List<Applyforlocation> applyforlocationList =applyforlocationVoService.findApplicntList(applyforlocationVo);
 		ArrayList<Resume> resumeList = new ArrayList<Resume>();
 		for(int i = 0; i <applyforlocationList.size(); i++){
 			Resume resume = new Resume();
@@ -274,4 +269,5 @@ public class ICompanyController {
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.OK);
 	}
+
 }

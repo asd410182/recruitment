@@ -11,5 +11,8 @@ import java.util.List;
 public interface ApplyforlocationVoDao {
 
 	@Select("select * from apply_for_location where apid = #{pid}")
+	List<Applyforlocation> findApplicntList(ApplyforlocationVo applyforlocationVo);
+
+	@Select("select * from apply_for_location where aaid = #{aid}")
 	List<Applyforlocation> findPositionList(ApplyforlocationVo applyforlocationVo);
 }

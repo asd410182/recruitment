@@ -14,6 +14,10 @@ public class ApplyforlocationVoServiceImpl implements IApplyforlocationVoService
 	@Autowired
 	private ApplyforlocationVoDao applyforlocationVoDao;
 
+	public List<Applyforlocation> findApplicntList(ApplyforlocationVo applyforlocationVo){
+		return applyforlocationVoDao.findApplicntList(applyforlocationVo);
+	}
+
 	public List<Applyforlocation> findPositionList(ApplyforlocationVo applyforlocationVo){
 		return applyforlocationVoDao.findPositionList(applyforlocationVo);
 	}
