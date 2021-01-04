@@ -7,6 +7,9 @@ public class ApplyforlocationVo {
 	private Integer limit;//每页显示数量
 	private Integer pid;
 	private Integer aid;
+	private String astatus;
+	private String aname;
+	private String pname;
 
 	public Integer getPage() {
 		return page;
@@ -40,6 +43,30 @@ public class ApplyforlocationVo {
 		this.aid = aid;
 	}
 
+	public String getAstatus() {
+		return astatus;
+	}
+
+	public void setAstatus(String astatus) {
+		this.astatus = astatus;
+	}
+
+	public String getAname() {
+		return aname;
+	}
+
+	public void setAname(String aname) {
+		this.aname = aname;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+
 	@Override
 	public String toString() {
 		return "ApplyforlocationVo{" +
@@ -47,6 +74,9 @@ public class ApplyforlocationVo {
 				", limit=" + limit +
 				", pid=" + pid +
 				", aid=" + aid +
+				", astatus='" + astatus + '\'' +
+				", aname='" + aname + '\'' +
+				", pname='" + pname + '\'' +
 				'}';
 	}
 }

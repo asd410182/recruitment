@@ -6,6 +6,8 @@ public class PositionVo extends Position {
 	private Integer page;//当前页码
 	private Integer limit;//每页显示数量
 	private Integer cid;
+	private String pisopen;
+	private String panme;
 
 
 	public Integer getPage() {
@@ -32,12 +34,31 @@ public class PositionVo extends Position {
 		this.cid = cid;
 	}
 
+
+	public String getPisopen() {
+		return pisopen;
+	}
+
+	public void setPisopen(String pisopen) {
+		this.pisopen = pisopen;
+	}
+
+	public String getPanme() {
+		return panme;
+	}
+
+	public void setPanme(String panme) {
+		this.panme = panme;
+	}
+
 	@Override
 	public String toString() {
 		return "PositionVo{" +
 				"page=" + page +
 				", limit=" + limit +
 				", cid=" + cid +
+				", pisopen='" + pisopen + '\'' +
+				", panme='" + panme + '\'' +
 				'}';
 	}
 }
