@@ -10,17 +10,23 @@ import java.util.List;
 
 public interface IApplyforlocationDao {
 
+	//保存简历
 	@Insert("insert into apply_for_location (aaid,apid,asubmitime,astatus,afilepath)values(#{aaid},#{apid},#{asubmitime},#{astatus},#{afilepath})")
 	public Integer saveRecording(Applyforlocation applyforlocation);
 
-
-	//修改职位状态
-	@Update("update  apply_for_location set astatus = '已通知' where apid = #{apid} and aaid = #{aaid}")
+	//通知面试
+	@Update("update  apply_for_location set astatus = '等待面试' where apid = #{apid} and aaid = #{aaid}")
 	public Integer acceptResume(Applyforlocation applyforlocation);
 
-	//修改职位状态
-	@Update("update  apply_for_location set astatus = '拒绝' where apid = #{apid} and aaid = #{aaid}")
+	//拒绝
+	@Update("update  apply_for_location set astatus = '已拒绝' where apid = #{apid} and aaid = #{aaid}")
 	public Integer refuseResume(Applyforlocation applyforlocation);
+
+	//查找某个人投递某个简历
+	@Select("select * from apply_for_location where apid = #{arg0} and aaid = #{arg1}")
+	public Applyforlocation findByPAid(Integer apid,Integer aaid);
+
+
 	//查找一个人对应的所有提交简历
 	@Select("select * from apply_for_location where aaid = #{aaid}")
 	public List<Applyforlocation> findByAaid(Integer aaid);
@@ -29,9 +35,6 @@ public interface IApplyforlocationDao {
 	@Select("select * from apply_for_location where apid = #{apid}")
 	public List<Applyforlocation> findByApid(Integer apid);
 
-	//查找某个人投递某个简历
-	@Select("select * from apply_for_location where apid = #{arg0} and aaid = #{arg1}")
-	public Applyforlocation findByPAid(Integer apid,Integer aaid);
 
 	//已经通过的简历
 	@Select("select * from apply_for_location where apid = #{apid} and astatus ='等待面试'")

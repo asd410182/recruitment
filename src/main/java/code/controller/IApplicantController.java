@@ -43,25 +43,41 @@ public class IApplicantController {
 	@Autowired
 	private IApplyforlocationVoService applyforlocationVoService;
 
-	//显示提交过简历的职位列表天天VG
-	//查看投递过简历列表
+	//显示提交过简历的职位列表
+	/**
+	 * 查看简历列表
+	 * @param applyforlocationVo
+	 * @return
+	 */
+	//查看简历列表
+
+	/**
+	 * 查看简历列表
+	 * @param applyforlocationVo
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "/showResume")
-	public DataGridViewResultView showResume(ApplyforlocationVo applyforlocationVo){
-		ArrayList<Resume> resumeList = new ArrayList<Resume>();
+	@RequestMapping(value = "/showResumePosition")
+	public DataGridViewResultView showResumePosition(ApplyforlocationVo applyforlocationVo){
+		System.out.println(applyforlocationVo);
 		PageHelper.startPage(applyforlocationVo.getPage(),applyforlocationVo.getLimit());
-		List<Applyforlocation> applyforlocationList =applyforlocationVoService.findPositionList(applyforlocationVo);
-		for(int i = 0; i <applyforlocationList.size(); i++){
-			Resume resume = new Resume();
-			Position position = positionService.findByPid(applyforlocationList.get(i).getApid());
-			resume.setPosition(position);
-			resume.setApplyforlocation(applyforlocationList.get(i));
-			resumeList.add(resume);
-		}
-		PageInfo<Resume> pageInfo = new PageInfo<Resume>(resumeList);
-		return new DataGridViewResultView(pageInfo.getTotal(),pageInfo.getList());
+		List<Applyforlocation> applyforlocationList = applyforlocationVoService.findPositionList(applyforlocationVo);
+		return quickForResumePosition(applyforlocationList);
 	}
 
+	/**
+	 * 查看简历列表 传name
+	 * @param applyforlocationVo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/showResumePositionByName")
+	public DataGridViewResultView showResumePositionByName(ApplyforlocationVo applyforlocationVo){
+		applyforlocationVo.setAname("%"+applyforlocationVo.getAname()+"%");
+		PageHelper.startPage(applyforlocationVo.getPage(),applyforlocationVo.getLimit());
+		List<Applyforlocation> applyforlocationList =applyforlocationVoService.findPositionListByName(applyforlocationVo);
+		return quickForResumePosition(applyforlocationList);
+	}
 
 	//应聘者主页面
 
@@ -202,7 +218,7 @@ public class IApplicantController {
 	@RequestMapping(value ="/updateMyData")
 	public String updateMyData(Applicant applicant){
 		applicantService.updateApplicant(applicant);
-		return "redirect:/pages/Personalinfo.html?aid"+applicant.getAid();
+		return "redirect:/pages/Personalinfo.html?aid="+applicant.getAid();
 	}
 
 
@@ -213,6 +229,19 @@ public class IApplicantController {
 	public String updateData(Applicant applicant){
 		applicantService.updateApplicant(applicant);
 		return "redirect:/pages/ApplicantHome.html?aid="+applicant.getAid();
+	}
+
+	public DataGridViewResultView quickForResumePosition(List<Applyforlocation> applyforlocationList){
+		ArrayList<Resume> resumeList = new ArrayList<Resume>();
+		for(int i = 0; i <applyforlocationList.size(); i++){
+			Resume resume = new Resume();
+			resume.setApplyforlocation(applyforlocationList.get(i));
+			Position position = positionService.findByPid(applyforlocationList.get(i).getApid());
+			resume.setPosition(position);
+			resumeList.add(resume);
+		}
+		PageInfo<Resume> pageInfo = new PageInfo<Resume>(resumeList);
+		return new DataGridViewResultView(pageInfo.getTotal(),pageInfo.getList());
 	}
 
 }

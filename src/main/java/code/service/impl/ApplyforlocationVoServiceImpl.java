@@ -21,5 +21,13 @@ public class ApplyforlocationVoServiceImpl implements IApplyforlocationVoService
 	public List<Applyforlocation> findPositionList(ApplyforlocationVo applyforlocationVo){
 		return applyforlocationVoDao.findPositionList(applyforlocationVo);
 	}
+
+	public List<Applyforlocation> findApplicntListByName(ApplyforlocationVo applyforlocationVo){
+		return applyforlocationVoDao.findApplicntListByName(applyforlocationVo);
+	}
+
+	public List<Applyforlocation> findPositionListByName(ApplyforlocationVo applyforlocationVo){
+		return applyforlocationVoDao.findPositionListByName(applyforlocationVo);
+	}
 }
 

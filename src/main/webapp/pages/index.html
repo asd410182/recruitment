@@ -26,42 +26,56 @@
     </style>
 </head>
 <body>
-<ul class="layui-nav">
-    <li class="layui-nav-item">
-        <a href="javascript:void(0);" id="news">消息</a>
-    </li>
-    <li class="layui-nav-item" style="float: right;">
-        <a href="javascript:void(0)" id="exit">退出</a>
-    </li>
-</ul>
-<div>
-    <ul class="layui-nav layui-nav-tree" lay-filter="test">
-        <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-        <li class="layui-nav-item"><a href="javascript:void(0);" id="HomePage" onclick="switchPage(this)">首页</a></li>
-        <li class="layui-nav-item"><a href="javascript:void(0)" id="PostJob" onclick="switchPage(this)">发布职位</a></li>
-        <li class="layui-nav-item"><a href="javascript:void(0)" id="InfoManage" onclick="switchPage(this)">企业信息管理</a></li>
+    <ul class="layui-nav">
+        <li class="layui-nav-item">
+            <a href="javascript:void(0);" id="news">消息</a>
+        </li>
+        <li class="layui-nav-item" style="float: right;">
+            <a href="javascript:void(0)" id="exit" onclick="Exit()">退出</a>
+        </li>
     </ul>
-    <iframe id="iframe" frameborder="0" width="100%" height="100%"></iframe>
-</div>
+    <div>
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item"><a href="javascript:void(0);" id="HomePage" onclick="switchPage(this)">首页</a></li>
+            <li class="layui-nav-item"><a href="javascript:void(0);" id="PostJob" onclick="switchPage(this)">发布职位</a></li>
+            <li class="layui-nav-item"><a href="javascript:void(0);" id="InfoManage" onclick="switchPage(this)">企业信息管理</a></li>
+            <li class="layui-nav-item layui-nav-itemed" style="display: none;" id="alterLi"><a href="javascript:void(0);" id="JobInfo" onclick="switchPagePid(this)">某某职位</a></li>
+        </ul>
+        <iframe id="iframe" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
 
-<script>
-    //注意：导航 依赖 element 模块，否则无法进行功能性操作
-    layui.use(['element', 'jquery'], function(){
-        var element = layui.element;
-        var $ = layui.jquery;
+    <script>
+        //注意：导航 依赖 element 模块，否则无法进行功能性操作
+        layui.use(['element', 'jquery'], function(){
+            var element = layui.element;
+            var $ = layui.jquery;
 
-    });
+        });
 
-    let cid;
+        let cid;
 
-    window.onload = function (){
-        cid = window.location.search.split("=")[1];
-        document.querySelector("#iframe").setAttribute("src", `./HomePage.html?cid=${cid}`);
-    }
+        window.onload = function (){
+            cid = window.location.search.split("=")[1];
 
-    function switchPage(o){
-        document.querySelector("#iframe").setAttribute("src", `./${o.id}.html?cid=${cid}`);
-    }
-</script>
+            // cid = 32;
+            document.querySelector("#iframe").setAttribute("src", `./HomePage.html?cid=${cid}`);
+        }
+
+        function switchPage(o){
+            document.querySelector("#iframe").setAttribute("src", `./${o.id}.html?cid=${cid}`);
+        }
+
+        function switchPagePid(o){
+            document.querySelector("#iframe").setAttribute("src", `${o.id}.html?pid=${o.getAttribute("pid")}`);
+        }
+
+        function Exit(){
+            if(confirm("您确定要退出系统吗？")){
+                top.location = "../index.html";
+                return false;
+            }
+        }
+    </script>
 </body>
 </html>

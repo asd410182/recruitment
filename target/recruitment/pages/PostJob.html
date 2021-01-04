@@ -150,6 +150,7 @@
             $.post("/company/addPosition", data.field, function (res){
                 console.log(res);
                 if(res.success){
+                    layer.msg("发布成功");
                     window.location.href = `./HomePage.html?cid=${cid}`;
                 }else {
                     layer.msg("发布失败，请重试");

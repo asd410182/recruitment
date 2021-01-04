@@ -53,7 +53,7 @@ public class IUserController {
 		String role = userService.findRoleById(uid);
 		if (role.equals("applicant")){
 			String aid = String.valueOf(uid);
-			return "redirect:/pages/Personalinfo.html?aid="+aid;
+			return "redirect:/pages/PerfectApplicant.html?aid="+aid;
 		}
 		else {
 			String cid = String.valueOf(uid);
@@ -85,7 +85,7 @@ public class IUserController {
 			Integer id = Integer.valueOf(aid);
 			String name = applicantService.findById(id).getAname();
 			if(name == null) {
-				return "redirect:/pages/Personalinfo.html?aid="+aid;
+				return "redirect:/pages/PerfectApplicant.html?aid="+aid;
 			}
 			else{
 				return "redirect:/pages/ApplicantHome.html?aid="+aid;

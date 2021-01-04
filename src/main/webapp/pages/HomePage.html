@@ -13,16 +13,17 @@
 <div style="width: 80%; margin-left: 100px">
     <form class="layui-form" action="">
         <div class="layui-form-item" style="display: inline-block">
-            <select name="pisopen" lay-verify="" required  lay-verify="required" lay-reqText="请选择职位类型" placeholder="请选择职位状态">
+            <select name="pisopen" lay-verify="" lay-filter="pisopen" lay-reqText="请选择职位类型" placeholder="请选择职位状态">
+                <option value="01">请选择</option>
                 <option value="1">开放</option>
                 <option value="0">关闭</option>
             </select>
         </div>
-        <!--<div class="layui-form-item" style="display: inline-block">-->
-            <!--<div class="layui-input-block" style="margin-left: 24px;">-->
-                <!--<input type="text" name="value" required  lay-verify="required" lay-reqText="请输入职位名称" placeholder="输入查询" autocomplete="off" class="layui-input">-->
-            <!--</div>-->
-        <!--</div>-->
+        <div class="layui-form-item" style="display: inline-block">
+            <div class="layui-input-block" style="margin-left: 24px;">
+                <input type="text" name="pname" required  lay-verify="required" lay-reqText="请输入职位名称" placeholder="输入查询" autocomplete="off" class="layui-input">
+            </div>
+        </div>
         <div class="layui-form-item" style="display: inline-block; margin-left: 280px">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="doSearch">搜索</button>
@@ -30,7 +31,7 @@
         </div>
     </form>
 </div>
-<div style="width: 80%; margin-left: 100px">
+<div style="margin-left: 40px; margin-right: 40px">
     <table id="JobList" lay-filter="JobTable"></table>
     <!-- 头部工具栏 -->
     <script type="text/html" id="JobToolbar">
@@ -49,6 +50,13 @@
     console.log(cid);
     // cid = 32;
 
+    function setParent(o){
+        console.log(o);
+        window.parent.document.getElementById("JobInfo").innerText = o.getAttribute("pname");
+        window.parent.document.getElementById("JobInfo").setAttribute("pid", o.getAttribute("pid"));
+        window.parent.document.getElementById("alterLi").style.display = "";
+    }
+
     layui.use(['table', 'form', 'jquery', 'layer'], function() {
         var table = layui.table;
         var form = layui.form;
@@ -56,46 +64,86 @@
         var layer = layui.layer;
 
         function setA(data){
-            // console.log(data);
-            // console.log(data.pid);
-            return `<a href="./JobIndex.html?pid=${data.pid}" target="blank">查看</a>`;
+            return `<a href="javascript:void(0);" onclick="setParent(this)" pid="${data.pid}", pname="${data.pname}">查看</a>`;
+        }
+
+        function setType(data){
+            if(data.pisopen == "0") return "关闭";
+            else return "开放";
         }
 
         //第一个实例
         var tableIns = table.render({
             elem: '#JobList',
-            height: 600,
+            height: 400,
             toolbar: "#JobToolbar",
             url: `/company/showPosition?cid=${cid}`, //数据接口
             page: true, //开启分页
             cols: [[ //表头
                 {type: "checkbox", fixed: "left", width: 80},
-                {field: 'pname', title: '职位名称'},
-                {field: 'psalary', title: '薪资范围'},
-                {field: 'pisopen', title: '是否开放'},
-                {field: 'pexperience', title: '经验要求'},
-                {field: 'pacademic', title: '学历要求'},
-                {field: 'preleasetime', title: '发布时间', sort: true},
-                {field: "pwaitcount", title: "未处理简历"},
-                {field: "plocation", title: "工作地址", hide: true},
-                {field: "pcontent", title: "职位描述", hide: true},
-                {field: "pneed", title: "职位需求", hide: true},
-                {field: "pid", title: "详情", templet: setA},
-                {title: "操作", toolbar: "#JobRowBar"}
+                {field: 'pname', title: '职位名称', align: "center"},
+                {field: 'psalary', title: '薪资范围', align: "center"},
+                {field: 'pisopen', title: '是否开放', align: "center", templet: setType},
+                {field: 'pexperience', title: '经验要求', align: "center"},
+                {field: 'pacademic', title: '学历要求', align: "center"},
+                {field: 'preleasetime', title: '发布时间', sort: true, align: "center"},
+                {field: "pwaitcount", title: "未处理简历", align: "center"},
+                {field: "plocation", title: "工作地址", hide: true, align: "center"},
+                {field: "pcontent", title: "职位描述", hide: true, align: "center"},
+                {field: "pneed", title: "职位需求", hide: true, align: "center"},
+                {field: "pid", title: "详情", templet: setA, align: "center"},
+                {field: "opt", title: "操作", toolbar: "#JobRowBar", fixed: "right", align: "center"}
             ]]
+            // done: function (res, curr, count){
+            //     $("[data-field='opt']").css('display', 'none');
+            // }
         });
 
-        //监听搜索按钮提交事件
-        form.on("submit(doSearch)",function (data) {
+        form.on("select(pisopen)", function (data){
+            console.log(data);
+            if(data.value == "01"){
+                tableIns.reload({
+                    url: "/company/showPosition",
+                    method: "post",
+                    where:{
+                        "cid": cid
+                    },
+                    page: {
+                        curr: 1
+                    }
+                })
+            }else {
+                tableIns.reload({
+                    url: "/company/searchPositionByPisopen",
+                    method: "post",
+                    where:{
+                        "cid": cid,
+                        "pisopen": data.value
+                    },
+                    page: {
+                        curr: 1
+                    }
+                })
+            }
+
+        })
+
+        //点击搜索
+        form.on("submit(doSearch)", function (data){
             tableIns.reload({
-                where:data.field,//查询条件
-                page:{
-                    curr:1
+                url: "/company/searchPosition",
+                method: "post",
+                where: {
+                    "cid": cid,
+                    "pname": data.field.pname,
+                    "pisopen": data.field.pisopen
+                },  //查询条件
+                page: {
+                    curr: 1
                 }
-            });
-            //禁止页面刷新
+            })
             return false;
-        });
+        })
 
         table.on("toolbar(JobTable)", function (obj){
             console.log(obj);
@@ -111,6 +159,7 @@
         function batchDelete(){
             //参数为id值
             var checkStatus = table.checkStatus("JobList");
+            console.log(checkStatus);
             if(checkStatus.data.length > 0){
                 var List = [];
                 //循环遍历获取选中行
@@ -118,7 +167,8 @@
                     List.push(checkStatus.data[i].pid);
                 }
                 var PidList = List.join(",");
-                layer.confirm("确定要删除选中的" + checkStatus.data.length + "数据吗？", {icon: 3, title: "提示"}, function (index){
+                console.log(PidList);
+                layer.confirm("确定要删除选中的" + checkStatus.data.length + "项数据吗？", {icon: 3, title: "提示"}, function (index){
                     $.post("/company/batchDelete", {"PidList": PidList}, function (res){
                         if(res.success){
                             layer.alert(res.message, {icon:1});

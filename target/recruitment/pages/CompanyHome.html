@@ -20,6 +20,11 @@
         <i class="iconfont">&#xe60d;</i>
         <span>欢迎来到人才招聘网</span>
     </div>
+    <div class="nav">
+        <a href="JavaScript:jumpToCompanyHomepage(cid)">首页</a>
+        <a href="JavaScript:jumpToCompanyData(cid)">个人信息</a>
+        <a href="JavaScript:jumpToPostJob(cid)">发布新的职位</a>
+    </div>
     <div class="C2">
         <i class="iconfont">&#xe640;</i>
         <span id="UserName">用户名</span>
@@ -50,10 +55,21 @@
         </div>
     </div>
     <div id="PostJob"><a href="JavaScript:jumpToPostJob(cid)">发布职位</a></div>
+    <div class="searchJob">
+        <input type="text" name="" id="search">
+        <button onclick="search()">搜索</button>
+    </div>
     <div id="right">
-        <ul>
+        <ul style="height: 900px">
 
         </ul>
+        <div class="right-bottom">
+            <i class="iconfont" id="prePage" onclick="changePage(this)">&#xe683;</i>
+            <p id="firstPage" onclick="changePage(this)">首页</p>
+            <p>第<span id="currentPage">1</span>页</p>
+            <p>总共<span id="totalPage">1</span>页</p>
+            <i class="iconfont" id="backPage" onclick="changePage(this)">&#xe606;</i>
+        </div>
     </div>
 </div>
 </body>

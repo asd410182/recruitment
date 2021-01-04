@@ -6,6 +6,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
+import net.sf.json.JSONArray;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -93,14 +93,62 @@ public class ICompanyController {
 	@ResponseBody
 	@RequestMapping(value = "/showPosition")
 	public DataGridViewResultView showPosition(PositionVo positionVo){
-		Map<String, Object> map = new HashMap<String, Object>();
 		PageHelper.startPage(positionVo.getPage(),positionVo.getLimit());
 		List<Position> positionList = positionVoService.findPositionList(positionVo);
+		return quickForPosition(positionList);
+	}
+
+	/**
+	 *
+	 * @param positionVo
+	 * @return
+	 */
+	//点击搜索时调用
+	//搜索职位，传参要cid，pisopen，pname
+	@ResponseBody
+	@RequestMapping(value = "/searchPosition")
+	public DataGridViewResultView searchPosition(PositionVo positionVo){
+		List<Position> positionList = new ArrayList<Position>();
+		PageHelper.startPage(positionVo.getPage(), positionVo.getLimit());
+		if(positionVo.getPisopen().equals("01")){
+			positionVo.setPanme("%"+positionVo.getPanme()+"%");
+			positionList = positionVoService.findByPname(positionVo);
+		}
+		else {
+			positionVo.setPanme("%" + positionVo.getPanme() + "%");
+			positionList = positionVoService.findByPnameAndPisoen(positionVo);
+		}
+		return quickForPosition(positionList);
+	}
+
+	/**
+	 *
+	 * @param positionVo
+	 * @return
+	 */
+	//选择下拉框时调用
+	//搜索职位，传参要cid，pisopen
+	@ResponseBody
+	@RequestMapping(value = "/searchPositionByPisopen")
+	public DataGridViewResultView searchPositionByPisopen(PositionVo positionVo){
+		PageHelper.startPage(positionVo.getPage(),positionVo.getLimit());
+		List<Position> positionList = new ArrayList<Position>();
+		if(positionVo.getPisopen().equals("01")){
+			positionList = positionVoService.findPositionList(positionVo);
+		}
+		else {
+			positionList =  positionVoService.findByPisopen(positionVo);
+		}
+		return quickForPosition(positionList);
+	}
+
+
+
+	public DataGridViewResultView quickForPosition(List<Position> positionList){
 		for(int i = 0; i < positionList.size(); i++){
-			int waitcount = applyforlocationService.findByApid(positionList.get(i).getPid()).size();
+			int waitcount = applyforlocationService.PositionNoHavePass(positionList.get(i).getPid()).size();
 			positionList.get(i).setPwaitcount(waitcount);
 		}
-		int count =positionList.size();
 		PageInfo<Position> pageInfo = new PageInfo<Position>(positionList);
 		return new DataGridViewResultView(pageInfo.getTotal(),pageInfo.getList());
 	}
@@ -207,12 +255,31 @@ public class ICompanyController {
 	 * @param applyforlocationVo
 	 * @return
 	 */
-
 	@ResponseBody
 	@RequestMapping(value = "/showResume")
 	public DataGridViewResultView showResume(ApplyforlocationVo applyforlocationVo){
+		System.out.println(applyforlocationVo);
 		PageHelper.startPage(applyforlocationVo.getPage(),applyforlocationVo.getLimit());
 		List<Applyforlocation> applyforlocationList =applyforlocationVoService.findApplicntList(applyforlocationVo);
+		return quickForResume(applyforlocationList);
+	}
+
+	/**
+	 * 查看简历列表 传name
+	 * @param applyforlocationVo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/showResumeByName")
+	public DataGridViewResultView showResumeByName(ApplyforlocationVo applyforlocationVo){
+		applyforlocationVo.setAname("%"+applyforlocationVo.getAname()+"%");
+		PageHelper.startPage(applyforlocationVo.getPage(),applyforlocationVo.getLimit());
+		List<Applyforlocation> applyforlocationList =applyforlocationVoService.findApplicntListByName(applyforlocationVo);
+		return quickForResume(applyforlocationList);
+	}
+
+
+	public DataGridViewResultView quickForResume(List<Applyforlocation> applyforlocationList){
 		ArrayList<Resume> resumeList = new ArrayList<Resume>();
 		for(int i = 0; i <applyforlocationList.size(); i++){
 			Resume resume = new Resume();
@@ -220,10 +287,13 @@ public class ICompanyController {
 			Applicant applicant = applicantService.findById(applyforlocationList.get(i).getAaid());
 			resume.setApplicant(applicant);
 			resumeList.add(resume);
+			System.out.println("传到前台的参数\n");
+			System.out.println(resume);
 		}
 		PageInfo<Resume> pageInfo = new PageInfo<Resume>(resumeList);
 		return new DataGridViewResultView(pageInfo.getTotal(),pageInfo.getList());
 	}
+
 
 	//通知面试
 	@ResponseBody
@@ -237,6 +307,37 @@ public class ICompanyController {
 		}else{
 			map.put("success",false);
 			map.put("message","通知面试失败");
+		}
+		return JSONUtils.toJSONString(map);
+	}
+
+	/**
+	 *
+	 * @param pids
+	 * @return
+	 */
+	//批量通知面试
+	@ResponseBody
+	@RequestMapping(value = "/batchAcceptResume",produces = "text/json; charset=utf-8")
+	public String batchAcceptResume(@RequestParam(value = "list")String pids){
+		int count = 0;
+//		//将字符串拆分成数组
+		JSONArray jsonArray = JSONArray.fromObject(pids);
+		List<Applyforlocation> list = new ArrayList<Applyforlocation>();
+		list = (List<Applyforlocation>) JSONArray.toCollection(jsonArray, Applyforlocation.class);//转换成列表
+
+		Map<String,Object> map = new HashMap<String,Object>();
+		for (int i = 0; i < list.size(); i++) {
+			count = applyforlocationService.acceptResume(list.get(i));
+			if (count > 0) {
+				map.put("success", true);
+				map.put("message", "通知面试成功");
+			}
+		}
+		//判断受影响的行数是否为0
+		if (count<=0){
+			map.put("success", false);
+			map.put("message", "通知面试失败");
 		}
 		return JSONUtils.toJSONString(map);
 	}
@@ -256,7 +357,29 @@ public class ICompanyController {
 		}
 		return JSONUtils.toJSONString(map);
 	}
-
+	//批量拒绝
+	@ResponseBody
+	@RequestMapping(value = "/batchRefuseResume",produces = "text/json; charset=utf-8")
+	public String batchRefuseResume(@RequestParam(value = "list")String pids){
+		JSONArray jsonArray = JSONArray.fromObject(pids);
+		List<Applyforlocation> list = new ArrayList<Applyforlocation>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		list = (List<Applyforlocation>) JSONArray.toCollection(jsonArray, Applyforlocation.class);//转换成列表
+		int count = 0;
+		for (int i = 0; i < list.size(); i++) {
+			count = applyforlocationService.refuseResume(list.get(i));
+			if (count > 0) {
+				map.put("success", true);
+				map.put("message", "拒绝成功");
+			}
+		}
+		//判断受影响的行数是否为0
+		if (count<=0){
+			map.put("success", false);
+			map.put("message", "拒绝失败");
+		}
+		return JSONUtils.toJSONString(map);
+	}
 
 
 	//文件下载

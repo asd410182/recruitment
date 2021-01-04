@@ -7,7 +7,6 @@ function jumpToPosition(aid,pid) {
 
 
 //下载文件
-
-function fileDownload(aaid,apid) {
-    window.location.href="/company/fileDownload?aaid="+aaid+"&apid="+apid;
+function fileDownload(aid,pid) {
+    window.location.href="/company/fileDownload?aaid="+aid+"&apid="+pid;
 }

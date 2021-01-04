@@ -115,7 +115,11 @@ h1{
     display: inline-block;
 }
 
-.top > a{
+.top > form{
+    display: inline-block;
+}
+
+.top > form > a{
     display: inline-block;
     height: 40px;
     width: 100px;
@@ -129,7 +133,7 @@ h1{
     text-decoration: none;
 }
 
-.top > a > input{
+.top > form > a > input{
     width: 100px;
     height: 40px;
     opacity: 0;
@@ -139,7 +143,7 @@ h1{
     left: 0px;
 }
 
-.top > a > p{
+.top > form > a > p{
     height: 40px;
     color: white;
     text-align: center;
@@ -152,20 +156,20 @@ h1{
     position: relative;
     width: 100px;
     text-align: center;
-    top: 90px;
-    right: 180px;
+    top: 80px;
+    right: 280px;
     visibility: hidden;
 }
 
-.top > button{
+.top > form > button{
     outline: none;
     border: none;
     background: #00d7c6;
     position: relative;
     width: 100px;
     text-align: center;
-    top: 48px;
-    right: -500px;
+    top: 32px;
+    right: -480px;
     height: 36px;
     color: white;
 }

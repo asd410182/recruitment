@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +8,8 @@
     <script src="../js/jquery-3.5.1.min.js"></script>
     <script src="../js/jump.js"></script>
     <script>
-       aid = window.location.search.split("=")[1];
-       console.log(aid);
+        let aid = window.location.search.split("=")[1];
+        console.log(aid);
     </script>
 </head>
 <body>

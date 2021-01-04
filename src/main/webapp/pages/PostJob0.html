@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布职位</title>
+    <link rel="stylesheet" href="../css/PostJob.css">
+    <script src="../js/jquery-3.5.1.min.js"></script>
+    <script th:inline="javascript">
+        var cid= [[${cid}]];
+        console.log(cid);
+    </script>
+    <script src="../js/jump.js"></script>
+</head>
+<body>
+<div id="header">
+    <div class="C1">
+        <i class="iconfont">&#xe60d;</i>
+        <span>欢迎来到人才招聘网</span>
+    </div>
+    <div class="nav">
+        <a href="JavaScript:jumpToCompanyHomepage(cid)">首页</a>
+        <a href="JavaScript:jumpToCompanyData(cid)">个人信息</a>
+        <a href="JavaScript:jumpToPostJob(cid)">发布新的职位</a>
+    </div>
+    <div class="C2">
+        <i class="iconfont">&#xe640;</i>
+        <span id="UserName">用户名</span>
+    </div>
+    <div class="C3">
+        <img src="../images/logo.jpg" alt="">
+    </div>
+</div>
+<div id="body">
+    <form method="post" action="/company/addPosition" onsubmit="return check()">
+        <div class="EssentialInformation">
+            <p><span>1</span> 基本职位信息</p>
+            <p>加*内容，在确认发布成功后，将无法修改</p>
+            <p>
+                <span>*公&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;司：</span>
+                <input type="text" name="" id="UserName" value="公司名" disabled="false">
+            </p>
+            <p>
+                <span>*职位名称：</span>
+                <input type="text" name="pname" id="JobName">
+            </p>
+            <p>
+                <span>*工作城市：</span>
+                <select name="plocation" id="province" onchange="showCity(this)">
+                    <option value="">请选择省份</option>
+                </select>
+                <select name="plocation" id="city">
+                    <option value="">请选择城市</option>
+                </select>
+            </p>
+            <p>
+                <span>&nbsp;工作地点：</span>
+                <input type="text" name="plocation" id="location">
+            </p>
+        </div>
+
+        <div class="JobRequirements">
+            <p><span>2</span> 职位要求</p>
+            <p>我们将通过以下条件，为您精确推荐合适的牛人，请尽量详细填写</p>
+            <p>
+                <span>*经验和学历：</span>
+                <select name="pexperience" id="ExperienceRequirement">
+                    <option value="经验不限">经验不限</option>
+                    <option value="在校生">在校生</option>
+                    <option value="应届生">应届生</option>
+                    <option value="1年以内">1年以内</option>
+                    <option value="1-3年">1-3年</option>
+                </select>
+                <select name="pacademic" id="AcademicRequirements">
+                    <option value="学历不限">学历不限</option>
+                    <option value="大专">大专</option>
+                    <option value="本科">本科</option>
+                    <option value="研究生">研究生</option>
+                    <option value="博士生">博士生</option>
+                </select>
+            </p>
+            <p>
+                <span>&nbsp;&nbsp;&nbsp;*薪资范围：</span>
+                <select name="psalary" id="MinSalary">
+                    <option value="1K">1K</option>
+                    <option value="2K">2K</option>
+                    <option value="3K">3K</option>
+                    <option value="4K">4K</option>
+                    <option value="5K">5K</option>
+                    <option value="6K">6K</option>
+                    <option value="8K">8K</option>
+                    <option value="9K">9K</option>
+                    <option value="10K">10K</option>
+                </select>
+                <select name="psalary" id="MaxSalary">
+                    <option value="3K">3K</option>
+                    <option value="4K">4K</option>
+                    <option value="5K">5K</option>
+                    <option value="6K">6K</option>
+                    <option value="8K">8K</option>
+                    <option value="9K">9K</option>
+                    <option value="10K">10K</option>
+                    <option value="12K">12K</option>
+                    <option value="14K">14K</option>
+                </select>
+                <span class="count">x 12个月</span>
+            </p>
+            <p>
+                <span>&nbsp;&nbsp;&nbsp;*职位描述：</span>
+                <textarea name="pcontent" id="JobDescription" cols="36" rows="6"></textarea>
+                <span class="CountNum">还可以输入<span class="JobDescription" style="color: red;">500</span>字</span>
+            </p>
+            <p>
+                <span>&nbsp;&nbsp;&nbsp;*任职要求：</span>
+                <textarea name="pneed" id="OperatingDuty" cols="36" rows="6"></textarea>
+                <span class="CountNum">还可以输入<span class="OperatingDuty" style="color: red;">500</span>字</span>
+            </p>
+        </div>
+        <div>
+            <div>
+                <div class="FlagBox">
+                    <label for="TurnOn" onclick="select(this)">开放</label>
+                    <input type="radio" name="pisopen" id="TurnOn" checked="checked" value="1">
+                </div>
+                <div class="FlagBox">
+                    <label for="TurnOff" onclick="select(this)">关闭</label>
+                    <input type="radio" name="pisopen" id="TurnOff" value="0">
+                </div>
+            </div>
+            <p id="error">错误信息</p>
+            <input type="hidden" name="pcid" id ="pcid" value="">
+            <input type="submit" value="发布">
+        </div>
+    </form>
+</div>
+<script src="../js/city.js"></script>
+<script src="../js/PostJob.js"></script>
+<script>
+    $("#pcid").val(cid);//#是对id处理
+</script>
+</body>
+</html>
