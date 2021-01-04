@@ -8,6 +8,7 @@ public class Applicant {
 	private String ajobstatus;
 	private String aemail;
 	private String aphone;
+	private String asex;
 
 	public Integer getAid() {
 		return aid;
@@ -66,6 +67,14 @@ public class Applicant {
 		this.aphone = aphone;
 	}
 
+	public String getAsex() {
+		return asex;
+	}
+
+	public void setAsex(String asex) {
+		this.asex = asex;
+	}
+
 	@Override
 	public String toString() {
 		return "Applicant{" +
@@ -76,6 +85,7 @@ public class Applicant {
 				", ajobstatus='" + ajobstatus + '\'' +
 				", aemail='" + aemail + '\'' +
 				", aphone='" + aphone + '\'' +
+				", asex='" + asex + '\'' +
 				'}';
 	}
 }

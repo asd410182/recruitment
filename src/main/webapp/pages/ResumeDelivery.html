@@ -8,18 +8,6 @@
     <script src="../js/jquery-3.5.1.min.js"></script>
     <script src="../js/ResumeDelivery.js"></script>
     <script src="../js/jquery.form.js"></script>
-    <script>
-        //简历是否提交成功
-        // $(function () {
-        //     $('#PostResume').ajaxForm(function (data) {
-        //         if (data.status === "fail") {
-        //             alert("fail");
-        //         } else {
-        //             alert(data);
-        //         }
-        //     })
-        // })
-    </script>
 </head>
 <body>
 <div id="header">
@@ -39,9 +27,14 @@
     <div class="top">
         <h1 id="JobName">职位名称</h1>
         <span id="JobSalary">4-8K</span>
-        <a href="javascript:void(0)" id="posta"><p id="resubmit">点击上传文件</p><input type="file" name="upload" onchange="change(this)" id="PostResume" multiple="multiple"></a>
         <p id="resume">简历.pdf</p>
-        <button type="button" onclick="getFile(this)">点击提交</button>
+        <form action="/applicant/fileUpload" onsubmit="return getFile();" enctype="multipart/form-data" method="post">
+            <input type="hidden" name="aaid" value="" id="aaid">
+            <input type="hidden" name="apid" value="" id="apid">
+            <input type="hidden" name="astatus" value="未处理">
+            <a href="javascript:void(0)" id="posta"><p id="resubmit">点击上传文件</p><input type="file" name="upload" onchange="change(this)" id="PostResume"></a>
+            <button type="submit">点击提交</button>
+        </form>
         <p><span id="city">杭州·</span><span id="ExperienceRequirement">经验不限·</span><span id="AcademicRequirements">本科</span></p>
     </div>
     <div class="middle">

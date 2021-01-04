@@ -46,6 +46,8 @@ public class ICompanyController {
 	@Autowired
 	private IApplyforlocationVoService applyforlocationVoService;
 
+	//招聘公司主页面
+
 	//ajax传招聘公司信息
 	@ResponseBody
 	@RequestMapping(value = "/companyData",produces = "text/json; charset=utf-8")
@@ -102,6 +104,7 @@ public class ICompanyController {
 		PageInfo<Position> pageInfo = new PageInfo<Position>(positionList);
 		return new DataGridViewResultView(pageInfo.getTotal(),pageInfo.getList());
 	}
+
 
 	//	发布职位
 	@ResponseBody
@@ -204,7 +207,7 @@ public class ICompanyController {
 	 * @param applyforlocationVo
 	 * @return
 	 */
-	//查看简历列表
+
 	@ResponseBody
 	@RequestMapping(value = "/showResume")
 	public DataGridViewResultView showResume(ApplyforlocationVo applyforlocationVo){

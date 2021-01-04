@@ -11,7 +11,7 @@ import java.util.List;
 public interface IApplicantDao {
 
 	//更新应聘者信息
-	@Update("update applicant set aname =#{aname},aage=#{aage},aeducation=#{aeducation},ajobstatus=#{ajobstatus},aemail=#{aemail},aphone=#{aphone} where aid =#{aid}")
+	@Update("update applicant set aname =#{aname},aage=#{aage},asex=#{asex},aeducation=#{aeducation},ajobstatus=#{ajobstatus},aemail=#{aemail},aphone=#{aphone} where aid =#{aid}")
 	public void updateApplicant(Applicant applicant);
 
 	//根据id查询应聘者信息

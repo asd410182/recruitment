@@ -9,6 +9,7 @@ public class Resume {
 	private String ajobstatus;
 	private String aemail;
 	private String aphone;
+	private String asex;
 
 	private Integer apid;
 	private String asubmitime;
@@ -37,6 +38,7 @@ public class Resume {
 		this.ajobstatus = applicant.getAjobstatus();
 		this.aemail = applicant.getAemail();
 		this.aphone = applicant.getAphone();
+		this.asex =applicant.getAsex();
 	}
 
 	public  void setApplyforlocation(Applyforlocation applyforlocation){
@@ -54,6 +56,7 @@ public class Resume {
 		this.pisopen =position.getPisopen();
 		this.plocation = position.getPlocation();
 		this.pcid = position.getPcid();
+		this.pneed =position.getPneed();
 		this.pexperience = position.getPexperience();
 		this.pacademic =position.getPacademic();
 		this.preleasetime =position.getPreleasetime();
@@ -71,6 +74,7 @@ public class Resume {
 				", ajobstatus='" + ajobstatus + '\'' +
 				", aemail='" + aemail + '\'' +
 				", aphone='" + aphone + '\'' +
+				", asex='" + asex + '\'' +
 				", apid=" + apid +
 				", asubmitime='" + asubmitime + '\'' +
 				", astatus='" + astatus + '\'' +
@@ -84,9 +88,6 @@ public class Resume {
 				", pcid=" + pcid +
 				", pexperience='" + pexperience + '\'' +
 				", pacademic='" + pacademic + '\'' +
-				", preleasetime='" + preleasetime + '\'' +
-				", pallcount=" + pallcount +
-				", pwaitcount=" + pwaitcount +
 				", preleasetime='" + preleasetime + '\'' +
 				", pallcount=" + pallcount +
 				", pwaitcount=" + pwaitcount +
