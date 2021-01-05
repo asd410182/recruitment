@@ -23,7 +23,7 @@ public interface ApplyforlocationVoDao {
 	@Select("select * from apply_for_location where aaid = #{aid} and astatus=#{astatus}")
 	List<Applyforlocation> findPositionList(ApplyforlocationVo applyforlocationVo);
 
-	@Select("select * from apply_for_location,applicant " +
+	@Select("select * from apply_for_location,position " +
 			"where apply_for_location.apid =position.pid " +
 			"and aaid = #{aid} " +
 			"and astatus= #{astatus} " +

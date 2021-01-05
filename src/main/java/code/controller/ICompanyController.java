@@ -46,8 +46,16 @@ public class ICompanyController {
 	@Autowired
 	private IApplyforlocationVoService applyforlocationVoService;
 
-	//招聘公司主页面
 
+	/**
+	*@Description 招聘公司信息
+	*@Param * @param cid
+	*@Return java.lang.String
+	*@Author SiYunXin
+	*@Date 2021/1/4
+	*@Time 23:40
+	*/
+	//招聘公司主页面
 	//ajax传招聘公司信息
 	@ResponseBody
 	@RequestMapping(value = "/companyData",produces = "text/json; charset=utf-8")
@@ -57,12 +65,22 @@ public class ICompanyController {
 		return companyData;
 	}
 
+	/**
+	*@Description
+	*@Param * @param company
+	*@Return java.lang.String
+	*@Author SiYunXin
+	*@Date 2021/1/4
+	*@Time 23:40
+	*/
 	//完善招聘公司信息
 	@RequestMapping(value = "/fillCompanyData")
 	public String fillCompanyData(Company company){
 		companyService.updateCompany(company);
 		return "redirect:/pages/index.html?cid="+company.getCid();
 	}
+
+	
 
 	//更新招聘公司信息
 	@ResponseBody
@@ -84,12 +102,8 @@ public class ICompanyController {
 	}
 
 
-	/**
-	 *
-	 * @param positionVo
-	 * @return
-	 */
-	//查看职位信息
+
+	//返回职位列表
 	@ResponseBody
 	@RequestMapping(value = "/showPosition")
 	public DataGridViewResultView showPosition(PositionVo positionVo){
@@ -99,12 +113,13 @@ public class ICompanyController {
 	}
 
 	/**
-	 *
-	 * @param positionVo
-	 * @return
-	 */
-	//点击搜索时调用
-	//搜索职位，传参要cid，pisopen，pname
+	*@Description  点击搜索时调用,搜索职位
+	*@Param * @param positionVo 传参要cid，pisopen，pname
+	*@Return code.domain.DataGridViewResultView
+	*@Author SiYunXin
+	*@Date 2021/1/4
+	*@Time 23:36
+	*/
 	@ResponseBody
 	@RequestMapping(value = "/searchPosition")
 	public DataGridViewResultView searchPosition(PositionVo positionVo){
@@ -162,6 +177,7 @@ public class ICompanyController {
 		Date nowDate= new Date();
 		String date= sdf.format(nowDate);
 		position.setPreleasetime(date);
+
 		Map<String,Object> map = new HashMap<String,Object>();
 		if(positionService.savePosition(position)>0){
 			map.put("success",true);
@@ -350,10 +366,10 @@ public class ICompanyController {
 		Applyforlocation applyforlocation =applyforlocationService.findByPAid(apid,aaid);
 		if(applyforlocationService.refuseResume(applyforlocation)>0){
 			map.put("success",true);
-			map.put("message","通知面试成功");
+			map.put("message","拒绝成功");
 		}else{
 			map.put("success",false);
-			map.put("message","通知面试失败");
+			map.put("message","拒绝失败");
 		}
 		return JSONUtils.toJSONString(map);
 	}

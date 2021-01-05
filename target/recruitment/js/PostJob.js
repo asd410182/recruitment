@@ -1,5 +1,6 @@
 let pisopen = "TurnOn";
 (function setDefault(){
+
     var prov = document.querySelector("#province");
     let len = provice.length;
     for(let i=0; i<len; i++){
@@ -11,15 +12,15 @@ let pisopen = "TurnOn";
     }
 
     let checkedRadio = document.getElementById(pisopen);
-    checkedRadio.parentElement.style.borderColor = "#00c2b3";
+    checkedRadio.parentElement.style.background = "#00c2b3";
 })();
 
 
 function select(o){
     let id = o.getAttribute("for");
     if(id != pisopen){
-        document.querySelector(`#${pisopen}`).parentElement.style.borderColor = "#9fa3b0";
-        document.querySelector(`#${id}`).parentElement.style.borderColor = "#00c2b3";
+        document.querySelector(`#${pisopen}`).parentElement.style.background = "white";
+        document.querySelector(`#${id}`).parentElement.style.background = "#00c2b3";
         pisopen = id;
     }
 }

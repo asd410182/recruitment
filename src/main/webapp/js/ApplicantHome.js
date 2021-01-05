@@ -11,6 +11,10 @@ window.onload = function(){
         window.location.href="/pages/Personalinfo.html?aid="+aid;
     };
 
+    document.querySelector("#home").href = "./ApplicantHome.html?aid="+aid;
+    document.querySelector("#personal").href = `./Personalinfo.html?aid=${aid}`;
+    document.querySelector("#resumelist").href = `./ResumeList.html?aid=${aid}`;
+
     $.ajax({
         type: "post",
         url: "/applicant/applicantData",
@@ -29,7 +33,7 @@ window.onload = function(){
             result = res;
             JobList = res[5];
 
-            document.querySelectorAll("#UserName")[0].innerText = res[0].aname;
+            // document.querySelectorAll("#UserName")[0].innerText = res[0].aname;
             document.querySelectorAll("#UserName")[1].innerText = res[0].aname;
 
             const totalPage = document.querySelector("#totalPage");
@@ -290,5 +294,12 @@ function changePage(o){
     }else{
         showInfo(1);
         document.querySelector("#currentPage").innerText = 1;
+    }
+}
+
+function Exit(){
+    if(confirm("您确定要退出系统吗？")){
+        top.location = "../index.html";
+        return false;
     }
 }

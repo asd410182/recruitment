@@ -107,7 +107,7 @@ img{
     border: none;
     height: 40px;
     width: 560px;
-}
+} 
 
 .searchBar > select{
     height: 40px;
@@ -230,4 +230,23 @@ li{
     color: #787f8f;
     text-align: right;
     margin-right: 30px;
+}
+
+.right-bottom{
+    width: 800px;
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    margin-bottom: 40px;
+}
+
+.right-bottom > p{
+    display: inline-block;
+    padding: 4px;
+}
+
+.right-bottom > i.iconfont{
+    color: #00d7c6;
+    margin: 0px 10px 0px 2px;
+    padding-top: 4px;
 }

@@ -13,6 +13,7 @@ let cancel = document.querySelector("#cancel");
 let edit = document.querySelector("#edit");
 
 window.onload = function(){
+
     let inputs = document.querySelectorAll("input[type='text']");
     inputs = Array.from(inputs);
     for(const val of inputs){

@@ -1,3 +1,8 @@
+window.onload = function (){
+    let aid = window.location.search.split("=")[1];
+    document.querySelector("input[name='aid']").value = aid;
+}
+
 function Submit() {
     const UserName = document.querySelectorAll("#UserName")[1].value;
     const PhoneNumber = document.querySelector("#PhoneNumber").value;

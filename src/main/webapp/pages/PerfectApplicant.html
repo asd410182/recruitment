@@ -7,10 +7,6 @@
     <link rel="stylesheet" href="../css/PerfectApplicant.css">
     <script src="../js/jquery-3.5.1.min.js"></script>
     <script src="../js/PerfectApplicant.js"></script>
-    <script th:inline="javascript">
-        var aid= [[${aid}]];
-        console.log(aid);
-    </script>
 </head>
 <body>
 <div id="header">
@@ -23,8 +19,8 @@
             <img src="../images/logo.jpg" alt="">
         </div>
         <div class="C2">
-            <i class="iconfont">&#xe640;</i>
-            <span id="UserName">用户名</span>
+<!--            <i class="iconfont">&#xe640;</i>-->
+<!--            <span id="UserName">用户名</span>-->
         </div>
     </div>
     <div id="header2">
@@ -38,6 +34,7 @@
         <div id="top">
             <h2>个人信息</h2>
             <form method="post" action="/applicant/updateData" onsubmit="return Submit();">
+                <input type="hidden" name="aid" value="">
                 <div id="input1">
                     <div>
                         <p>姓名</p>
@@ -73,10 +70,10 @@
                         <div>
                             <i class="iconfont">&#xe699;</i>
                             <select id="JobSS" name="ajobstatus">
-                                <option value="在校-暂不考虑">在校-暂不考虑</option>
-                                <option value="离校-随时到岗">离校-随时到岗</option>
-                                <option value="在校-考虑机会">在校-考虑机会</option>
-                                <option value="在校-月内到岗">在校-月内到岗</option>
+                                <option value="暂不考虑">暂不考虑</option>
+                                <option value="随时到岗">随时到岗</option>
+                                <option value="考虑机会">考虑机会</option>
+                                <option value="月内到岗">月内到岗</option>
                             </select>
                             <p class="JobError">工作经验不能为空</p>
                         </div>
@@ -108,6 +105,5 @@
         </div>
     </div>
 </div>
-<script>$("#aid").val(aid);//#是对id处理</script>
 </body>
 </html>

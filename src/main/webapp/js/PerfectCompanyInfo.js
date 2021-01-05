@@ -1,3 +1,9 @@
+window.onload = function (){
+    let cid = window.location.search.split("=")[1];
+    document.querySelector("input[name='cid']").value = cid;
+    console.log(cid);
+}
+
 function Submit(){
     const UserName = document.querySelectorAll("#UserName")[1].value;
     const PhoneNumber = document.querySelector("#PhoneNumber").value;

@@ -59,7 +59,6 @@ public class IApplicantController {
 	@ResponseBody
 	@RequestMapping(value = "/showResumePosition")
 	public DataGridViewResultView showResumePosition(ApplyforlocationVo applyforlocationVo){
-		System.out.println(applyforlocationVo);
 		PageHelper.startPage(applyforlocationVo.getPage(),applyforlocationVo.getLimit());
 		List<Applyforlocation> applyforlocationList = applyforlocationVoService.findPositionList(applyforlocationVo);
 		return quickForResumePosition(applyforlocationList);
@@ -73,7 +72,7 @@ public class IApplicantController {
 	@ResponseBody
 	@RequestMapping(value = "/showResumePositionByName")
 	public DataGridViewResultView showResumePositionByName(ApplyforlocationVo applyforlocationVo){
-		applyforlocationVo.setAname("%"+applyforlocationVo.getAname()+"%");
+		applyforlocationVo.setPname("%"+applyforlocationVo.getPname()+"%");
 		PageHelper.startPage(applyforlocationVo.getPage(),applyforlocationVo.getLimit());
 		List<Applyforlocation> applyforlocationList =applyforlocationVoService.findPositionListByName(applyforlocationVo);
 		return quickForResumePosition(applyforlocationList);
@@ -224,7 +223,7 @@ public class IApplicantController {
 
 	//注册后信息完善信息时的操作
 
-	//完善招聘公司信息
+	//修改应聘者信息
 	@RequestMapping(value = "/updateData")
 	public String updateData(Applicant applicant){
 		applicantService.updateApplicant(applicant);

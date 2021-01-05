@@ -53,7 +53,6 @@ function register(){
                 alert("账号已经被注册，请换个账号再注册")
             }else{
                 console.log(res);
-                alert(res);
                 window.location.href ="/user/jumpAfterRegister?uid="+res;
             }
         },

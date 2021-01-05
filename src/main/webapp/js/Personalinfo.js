@@ -4,11 +4,16 @@ let DefaultEdu;
 let DefaultStatus;
 let DefaultPhone;
 let DefaultEmail;
-
+let aid;
 
 window.onload = function(){
-    let aid = window.location.search.split("=")[1];
+    aid = window.location.search.split("=")[1];
     console.log(aid);
+    document.querySelector("input[name='aid']").value = aid;
+
+    document.querySelector("#home").href = "./ApplicantHome.html?aid="+aid;
+    document.querySelector("#personal").href = `./Personalinfo.html?aid=${aid}`;
+    document.querySelector("#resumelist").href = `./ResumeList.html?aid=${aid}`;
 
     $.ajax({
         url: "/applicant/showMyData",
@@ -20,7 +25,7 @@ window.onload = function(){
         success: function (res){
             console.log(res);
             // console.log(document.querySelectorAll("#UserName"));
-            document.querySelectorAll("#UserName")[0].innerText = res[0].aname;
+            // document.querySelectorAll("#UserName")[0].innerText = res[0].aname;
             document.querySelectorAll("#UserName")[1].value = res[0].aname;
             document.querySelector(".UserName").innerText = res[0].aname;
             DefaultUserName = res[0].aname;
@@ -255,5 +260,12 @@ function Edit(o){
     selects = Array.from(selects);
     for(const val of selects){
         val.removeAttribute("disabled");
+    }
+}
+
+function Exit(){
+    if(confirm("您确定要退出系统吗？")){
+        top.location = "../index.html";
+        return false;
     }
 }

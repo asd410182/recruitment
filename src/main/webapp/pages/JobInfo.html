@@ -140,9 +140,15 @@
 
 <script>
     let pid;
+    let astatus;
     window.onload = function (){
         pid = window.location.search.split("=")[1];
         console.log(pid);
+
+        let selects = document.querySelector("#deal");
+        let i = selects.selectedIndex;
+        astatus = selects.options[i].value;
+        console.log(astatus);
 
         layui.use(['form', 'layer', 'table'], function() {
             var form = layui.form;
@@ -346,13 +352,10 @@
             return `<a href="javascript:void(0);" onclick="fileDownload(${data.aid}, ${pid})">下载简历</a>`;
         }
 
-        let selects = document.querySelector("#deal");
-
-
         var tableIns = table.render({
             elem: '#ResumeList'
             ,height: 312
-            ,url: `/company/showResume?pid=${pid}&astatus="未处理"` //数据接口
+            ,url: `/company/showResume?pid=${pid}&astatus=${astatus}` //数据接口
             ,method: "post"
             ,toolbar: "#ResumeToolbar"
             ,page: true //开启分页
@@ -371,7 +374,13 @@
                 {field: "opt", title: "操作", toolbar: "#ResumeRowBar", align: "center", fixed: "right", width: 200}
             ]],
             done: function (){
+                let selects = document.querySelector("#deal");
+                let i = selects.selectedIndex;
+                astatus = selects.options[i].value;
                 // const type = document.querySelector("");
+                if(astatus != "未处理"){
+                    $("[data-field='opt']").css('display', 'none');
+                }
             }
         });
 
@@ -386,6 +395,14 @@
                 },
                 page: {
                     curr: 1
+                },
+                done: function (){
+                    let selects = document.querySelector("#deal");
+                    let i = selects.selectedIndex;
+                    astatus = selects.options[i].value;
+                    if(astatus != "未处理"){
+                        $("[data-field='opt']").css('display', 'none');
+                    }
                 }
             })
         })
@@ -393,14 +410,24 @@
         //点击搜索
         form.on("submit(doSearch)", function (data){
             console.log(data.field);
-            let newData;
-            newData.aname = data.field.aname;
-            newData.apid = pid;
+            let newData = data.field;
+            newData.pid = pid;
+            console.log(newData);
             tableIns.reload({
-                url: "",
+                url: "/company/showResumeByName",
+                method: "post",
                 where: newData,  //查询条件
                 page: {
                     curr: 1
+                },
+                done: function (){
+                    let selects = document.querySelector("#deal");
+                    let i = selects.selectedIndex;
+                    astatus = selects.options[i].value;
+                    // const type = document.querySelector("");
+                    if(astatus != "未处理"){
+                        $("[data-field='opt']").css('display', 'none');
+                    }
                 }
             })
             return false;
